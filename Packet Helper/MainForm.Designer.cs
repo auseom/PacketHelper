@@ -28,12 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.listView_PacketActivity = new System.Windows.Forms.ListView();
             this.columnHeader_No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_SrcIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_DestIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_Protocol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader_SrcPort = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader_DestPort = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_Length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_Info = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -48,9 +51,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button_CaptureRestart = new System.Windows.Forms.Button();
             this.button_CaptureStop = new System.Windows.Forms.Button();
-            this.columnHeader_SrcPort = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader_DestPort = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem_tray_exit = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // listView_PacketActivity
@@ -100,6 +105,14 @@
             this.columnHeader_Protocol.Text = "Protocol";
             this.columnHeader_Protocol.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // columnHeader_SrcPort
+            // 
+            this.columnHeader_SrcPort.Text = "Src Port";
+            // 
+            // columnHeader_DestPort
+            // 
+            this.columnHeader_DestPort.Text = "Dst Port";
+            // 
             // columnHeader_Length
             // 
             this.columnHeader_Length.Text = "Length";
@@ -135,19 +148,19 @@
             // toolStripMenuItem_Open
             // 
             this.toolStripMenuItem_Open.Name = "toolStripMenuItem_Open";
-            this.toolStripMenuItem_Open.Size = new System.Drawing.Size(150, 22);
+            this.toolStripMenuItem_Open.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem_Open.Text = "열기";
             // 
             // toolStripMenuItem_Save
             // 
             this.toolStripMenuItem_Save.Name = "toolStripMenuItem_Save";
-            this.toolStripMenuItem_Save.Size = new System.Drawing.Size(150, 22);
+            this.toolStripMenuItem_Save.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem_Save.Text = "저장";
             // 
             // toolStripMenuItem_Close
             // 
             this.toolStripMenuItem_Close.Name = "toolStripMenuItem_Close";
-            this.toolStripMenuItem_Close.Size = new System.Drawing.Size(150, 22);
+            this.toolStripMenuItem_Close.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem_Close.Text = "프로그램 종료";
             // 
             // toolStripMenuItem_Info
@@ -210,13 +223,26 @@
             this.button_CaptureStop.UseVisualStyleBackColor = true;
             this.button_CaptureStop.Click += new System.EventHandler(this.button_CaptureStop_Click);
             // 
-            // columnHeader_SrcPort
+            // notifyIcon1
             // 
-            this.columnHeader_SrcPort.Text = "Src Port";
+            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
             // 
-            // columnHeader_DestPort
+            // contextMenuStrip1
             // 
-            this.columnHeader_DestPort.Text = "Dst Port";
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem_tray_exit});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 48);
+            // 
+            // toolStripMenuItem_tray_exit
+            // 
+            this.toolStripMenuItem_tray_exit.Name = "toolStripMenuItem_tray_exit";
+            this.toolStripMenuItem_tray_exit.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem_tray_exit.Text = "프로그램 종료";
+            this.toolStripMenuItem_tray_exit.Click += new System.EventHandler(this.toolStripMenuItem_tray_exit_Click);
             // 
             // MainForm
             // 
@@ -236,6 +262,7 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -264,6 +291,9 @@
         private System.Windows.Forms.Button button_CaptureStop;
         private System.Windows.Forms.ColumnHeader columnHeader_SrcPort;
         private System.Windows.Forms.ColumnHeader columnHeader_DestPort;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_tray_exit;
     }
 }
 

@@ -37,3 +37,6 @@ F:\컴퓨터네트워크\Packet Helper\Packet Helper\obj\Debug\Packet Helper.csp
 F:\컴퓨터네트워크\Packet Helper\Packet Helper\obj\Debug\Packet_Helper.MainForm.resources
 F:\컴퓨터네트워크\Packet Helper\Packet Helper\obj\Debug\Packet_Helper.Properties.Resources.resources
 F:\컴퓨터네트워크\Packet Helper\Packet Helper\obj\Debug\Packet Helper.csproj.GenerateResource.Cache
+C:\Users\AUSEOM\Documents\GitHub\PacketHelper\Packet Helper\bin\Debug\Packet Helper.exe.config
+C:\Users\AUSEOM\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet Helper.exe
+C:\Users\AUSEOM\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet Helper.pdb

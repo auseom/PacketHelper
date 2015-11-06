@@ -30,12 +30,36 @@ namespace Packet_Helper
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            e.Cancel = true;
+            this.Visible = false;
+        }
+
+        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        {
+            this.Visible = true;
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
+            this.Activate();
+        }
+
+        private void toolStripMenuItem_tray_exit_Click(object sender, EventArgs e)
+        {
+            appExit();
+        }
+
+        private void appExit()
+        {
             if (!CapturePacket.BackgroundThreadStop)
             {
                 capturePacket.device.StopCapture();
                 CapturePacket.BackgroundThreadStop = true;
                 capturePacket.device.Close();
             }
+
+            notifyIcon1.Visible = false;
+            Application.Exit();
         }
 
         private void comboBox_DevList_SelectedIndexChanged(object sender, EventArgs e)
