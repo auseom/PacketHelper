@@ -40,3 +40,11 @@ F:\컴퓨터네트워크\Packet Helper\Packet Helper\obj\Debug\Packet Helper.csp
 C:\Users\AUSEOM\Documents\GitHub\PacketHelper\Packet Helper\bin\Debug\Packet Helper.exe.config
 C:\Users\AUSEOM\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet Helper.exe
 C:\Users\AUSEOM\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet Helper.pdb
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\bin\Debug\Packet Helper.exe
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\bin\Debug\Packet Helper.pdb
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\bin\Debug\PacketDotNet.xml
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\bin\Debug\SharpPcap.xml
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet Helper.csprojResolveAssemblyReference.cache
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet_Helper.MainForm.resources
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet_Helper.Properties.Resources.resources
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet Helper.csproj.GenerateResource.Cache

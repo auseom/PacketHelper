@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.listView_PacketActivity = new System.Windows.Forms.ListView();
             this.columnHeader_No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -40,8 +41,7 @@
             this.columnHeader_Length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_Info = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.toolStripMenuItem_File = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem_Open = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Save = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Close = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Info = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,10 +52,13 @@
             this.button_CaptureRestart = new System.Windows.Forms.Button();
             this.button_CaptureStop = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip_tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem_tray_exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_tray_activate = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
+            this.contextMenuStrip_tray.SuspendLayout();
             this.SuspendLayout();
             // 
             // listView_PacketActivity
@@ -127,7 +130,7 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem_File,
+            this.toolStripMenuItem_Menu,
             this.toolStripMenuItem_Info});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -135,33 +138,29 @@
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // toolStripMenuItem_File
+            // toolStripMenuItem_Menu
             // 
-            this.toolStripMenuItem_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem_Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem_Open,
             this.toolStripMenuItem_Save,
             this.toolStripMenuItem_Close});
-            this.toolStripMenuItem_File.Name = "toolStripMenuItem_File";
-            this.toolStripMenuItem_File.Size = new System.Drawing.Size(43, 20);
-            this.toolStripMenuItem_File.Text = "파일";
-            // 
-            // toolStripMenuItem_Open
-            // 
-            this.toolStripMenuItem_Open.Name = "toolStripMenuItem_Open";
-            this.toolStripMenuItem_Open.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem_Open.Text = "열기";
+            this.toolStripMenuItem_Menu.Name = "toolStripMenuItem_Menu";
+            this.toolStripMenuItem_Menu.Size = new System.Drawing.Size(50, 20);
+            this.toolStripMenuItem_Menu.Text = "Menu";
             // 
             // toolStripMenuItem_Save
             // 
             this.toolStripMenuItem_Save.Name = "toolStripMenuItem_Save";
-            this.toolStripMenuItem_Save.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem_Save.Text = "저장";
+            this.toolStripMenuItem_Save.Size = new System.Drawing.Size(155, 22);
+            this.toolStripMenuItem_Save.Text = "Save User Info";
+            this.toolStripMenuItem_Save.Click += new System.EventHandler(this.toolStripMenuItem_Save_Click);
             // 
             // toolStripMenuItem_Close
             // 
             this.toolStripMenuItem_Close.Name = "toolStripMenuItem_Close";
-            this.toolStripMenuItem_Close.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem_Close.Text = "프로그램 종료";
+            this.toolStripMenuItem_Close.Size = new System.Drawing.Size(155, 22);
+            this.toolStripMenuItem_Close.Text = "Exit";
+            this.toolStripMenuItem_Close.Click += new System.EventHandler(this.toolStripMenuItem_Close_Click);
             // 
             // toolStripMenuItem_Info
             // 
@@ -169,20 +168,22 @@
             this.toolStripMenuItem_Man,
             this.toolStripMenuItem_About});
             this.toolStripMenuItem_Info.Name = "toolStripMenuItem_Info";
-            this.toolStripMenuItem_Info.Size = new System.Drawing.Size(43, 20);
-            this.toolStripMenuItem_Info.Text = "정보";
+            this.toolStripMenuItem_Info.Size = new System.Drawing.Size(40, 20);
+            this.toolStripMenuItem_Info.Text = "Info";
             // 
             // toolStripMenuItem_Man
             // 
             this.toolStripMenuItem_Man.Name = "toolStripMenuItem_Man";
-            this.toolStripMenuItem_Man.Size = new System.Drawing.Size(176, 22);
-            this.toolStripMenuItem_Man.Text = "사용법";
+            this.toolStripMenuItem_Man.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem_Man.Text = "Manual";
+            this.toolStripMenuItem_Man.Click += new System.EventHandler(this.toolStripMenuItem_Man_Click);
             // 
             // toolStripMenuItem_About
             // 
             this.toolStripMenuItem_About.Name = "toolStripMenuItem_About";
-            this.toolStripMenuItem_About.Size = new System.Drawing.Size(176, 22);
-            this.toolStripMenuItem_About.Text = "Packet Helper 정보";
+            this.toolStripMenuItem_About.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem_About.Text = "About Packet Helper";
+            this.toolStripMenuItem_About.Click += new System.EventHandler(this.toolStripMenuItem_About_Click);
             // 
             // comboBox_DevList
             // 
@@ -225,24 +226,46 @@
             // 
             // notifyIcon1
             // 
-            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
-            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip_tray;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "Packet Helper";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
             // 
-            // contextMenuStrip1
+            // contextMenuStrip_tray
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuStrip_tray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem_tray_activate,
+            this.toolStripSeparator1,
             this.toolStripMenuItem_tray_exit});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 48);
+            this.contextMenuStrip_tray.Name = "contextMenuStrip1";
+            this.contextMenuStrip_tray.Size = new System.Drawing.Size(217, 54);
             // 
             // toolStripMenuItem_tray_exit
             // 
             this.toolStripMenuItem_tray_exit.Name = "toolStripMenuItem_tray_exit";
-            this.toolStripMenuItem_tray_exit.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem_tray_exit.Text = "프로그램 종료";
+            this.toolStripMenuItem_tray_exit.Size = new System.Drawing.Size(216, 22);
+            this.toolStripMenuItem_tray_exit.Text = "Exit";
             this.toolStripMenuItem_tray_exit.Click += new System.EventHandler(this.toolStripMenuItem_tray_exit_Click);
+            // 
+            // toolStripMenuItem_tray_activate
+            // 
+            this.toolStripMenuItem_tray_activate.Name = "toolStripMenuItem_tray_activate";
+            this.toolStripMenuItem_tray_activate.Size = new System.Drawing.Size(216, 22);
+            this.toolStripMenuItem_tray_activate.Text = "Select the Network Device";
+            this.toolStripMenuItem_tray_activate.Click += new System.EventHandler(this.toolStripMenuItem_tray_activate_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
+            // 
+            // toolStripMenuItem_Open
+            // 
+            this.toolStripMenuItem_Open.Name = "toolStripMenuItem_Open";
+            this.toolStripMenuItem_Open.Size = new System.Drawing.Size(155, 22);
+            this.toolStripMenuItem_Open.Text = "Open User Info";
+            this.toolStripMenuItem_Open.Click += new System.EventHandler(this.toolStripMenuItem_Open_Click);
             // 
             // MainForm
             // 
@@ -255,6 +278,7 @@
             this.Controls.Add(this.comboBox_DevList);
             this.Controls.Add(this.listView_PacketActivity);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Packet Helper";
@@ -262,7 +286,7 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.contextMenuStrip_tray.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -270,8 +294,7 @@
 
         #endregion
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_File;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Open;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Menu;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Save;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Close;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Info;
@@ -291,9 +314,12 @@
         private System.Windows.Forms.Button button_CaptureStop;
         private System.Windows.Forms.ColumnHeader columnHeader_SrcPort;
         private System.Windows.Forms.ColumnHeader columnHeader_DestPort;
-        private System.Windows.Forms.NotifyIcon notifyIcon1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_tray;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_tray_exit;
+        public System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_tray_activate;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Open;
     }
 }
 

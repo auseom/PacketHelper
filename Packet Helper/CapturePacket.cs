@@ -14,6 +14,7 @@ namespace Packet_Helper
         private static MainForm mainForm;
         public ICaptureDevice device;
 
+        public Thread backgroundThread;
         public static bool BackgroundThreadStop = false;
         private static object QueueLock = new object();
         private static List<RawCapture> PacketQueue = new List<RawCapture>();
@@ -32,7 +33,7 @@ namespace Packet_Helper
             device = dev;
             int readTimeoutMilliseconds = 1000;
 
-            var backgroundThread = new System.Threading.Thread(BackgroundThread);
+            backgroundThread = new System.Threading.Thread(BackgroundThread);
             backgroundThread.Start();
 
             device.OnPacketArrival += new PacketArrivalEventHandler(device_OnPacketArrival);
@@ -108,7 +109,7 @@ namespace Packet_Helper
                             dstPort = tcpPacket.DestinationPort;
                         }
 
-                        if ((srcIp.ToString() == "255.255.255.255" && dstIp.ToString() == "255.255.255.255") || (srcPort == 0 && dstPort == 0))
+                        if (srcIp.ToString().Equals("255.255.255.255") && dstIp.ToString().Equals("255.255.255.255") || (srcPort == 0 && dstPort == 0))
                         {
                             continue;
                         }
