@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SharpPcap;
 
@@ -87,11 +84,12 @@ namespace Packet_Helper
                     foreach(var packet in ourQueue)
                     {
                         ListViewItem newItem = new ListViewItem(count.ToString());
-                        
+
                         var packetLength = packet.Data.Length;
                         var time = packet.Timeval.Date;
                         var thisPacket = PacketDotNet.Packet.ParsePacket(packet.LinkLayerType, packet.Data);
                         var tcpPacket = (PacketDotNet.TcpPacket)thisPacket.Extract(typeof(PacketDotNet.TcpPacket));
+                        var containsSensitiveData = false;
 
                         System.Net.IPAddress srcIp = System.Net.IPAddress.None;
                         System.Net.IPAddress dstIp = System.Net.IPAddress.None;
@@ -101,6 +99,10 @@ namespace Packet_Helper
 
                         if (tcpPacket != null)
                         {
+
+                            /* Check if it contains sensitive data */
+                            containsSensitiveData = detectSensitiveData(tcpPacket);
+
                             var ipPacket = (PacketDotNet.IpPacket)tcpPacket.ParentPacket;
                             srcIp = ipPacket.SourceAddress;
                             dstIp = ipPacket.DestinationAddress;
@@ -149,6 +151,20 @@ namespace Packet_Helper
         public void stopCapture()
         {
             device.StopCapture();
+        }
+
+        /* Detecting sensitive data 
+         * I'm working on it...
+         **/
+        public static bool detectSensitiveData(PacketDotNet.TcpPacket tcpPacket)
+        {
+            if ((tcpPacket.PayloadData != null) || (tcpPacket.PayloadPacket != null))
+            {
+                var tcpPacketHex = tcpPacket.PrintHex();
+                mainForm.textBox_showPayload.Text = tcpPacketHex;
+            }
+
+            return false;
         }
     }
 }

@@ -7,14 +7,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SharpPcap;
+using System.Collections;
 
 namespace Packet_Helper
 {
@@ -22,6 +17,7 @@ namespace Packet_Helper
     {
         public static List<ICaptureDevice> deviceList;
         private static ICaptureDevice device;
+        public ArrayList sensitiveDataArr;
         CapturePacket capturePacket;
 
         public MainForm()
@@ -33,6 +29,7 @@ namespace Packet_Helper
         {
             listDevicesToComboBox();
             capturePacket = new CapturePacket(this);
+            sensitiveDataArr = new ArrayList();
             toolStripMenuItem_tray_activate.Enabled = false;
         }
 
@@ -90,6 +87,19 @@ namespace Packet_Helper
         private void button_CaptureStop_Click(object sender, EventArgs e)
         {
             stopCaptureRoutine();
+        }
+
+        /* Testing for detecting user registered sensitive data */
+        private void button_register_Click(object sender, EventArgs e)
+        {
+            sensitiveDataArr.Add(textBox_registerText.Text);
+            /* It will be used in CapturePacket.cs */
+        }
+
+        /* Listing what data is registered */
+        private void button_sDataList_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void toolStripMenuItem_Open_Click(object sender, EventArgs e)

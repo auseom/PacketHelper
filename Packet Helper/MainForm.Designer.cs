@@ -42,6 +42,7 @@
             this.columnHeader_Info = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem_Menu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Save = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Close = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Info = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,10 +54,14 @@
             this.button_CaptureStop = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_tray = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem_tray_exit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_tray_activate = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem_Open = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_tray_exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBox_registerText = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.button_register = new System.Windows.Forms.Button();
+            this.button_sDataList = new System.Windows.Forms.Button();
+            this.textBox_showPayload = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip_tray.SuspendLayout();
             this.SuspendLayout();
@@ -147,6 +152,13 @@
             this.toolStripMenuItem_Menu.Name = "toolStripMenuItem_Menu";
             this.toolStripMenuItem_Menu.Size = new System.Drawing.Size(50, 20);
             this.toolStripMenuItem_Menu.Text = "Menu";
+            // 
+            // toolStripMenuItem_Open
+            // 
+            this.toolStripMenuItem_Open.Name = "toolStripMenuItem_Open";
+            this.toolStripMenuItem_Open.Size = new System.Drawing.Size(155, 22);
+            this.toolStripMenuItem_Open.Text = "Open User Info";
+            this.toolStripMenuItem_Open.Click += new System.EventHandler(this.toolStripMenuItem_Open_Click);
             // 
             // toolStripMenuItem_Save
             // 
@@ -241,13 +253,6 @@
             this.contextMenuStrip_tray.Name = "contextMenuStrip1";
             this.contextMenuStrip_tray.Size = new System.Drawing.Size(217, 54);
             // 
-            // toolStripMenuItem_tray_exit
-            // 
-            this.toolStripMenuItem_tray_exit.Name = "toolStripMenuItem_tray_exit";
-            this.toolStripMenuItem_tray_exit.Size = new System.Drawing.Size(216, 22);
-            this.toolStripMenuItem_tray_exit.Text = "Exit";
-            this.toolStripMenuItem_tray_exit.Click += new System.EventHandler(this.toolStripMenuItem_tray_exit_Click);
-            // 
             // toolStripMenuItem_tray_activate
             // 
             this.toolStripMenuItem_tray_activate.Name = "toolStripMenuItem_tray_activate";
@@ -260,18 +265,67 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
             // 
-            // toolStripMenuItem_Open
+            // toolStripMenuItem_tray_exit
             // 
-            this.toolStripMenuItem_Open.Name = "toolStripMenuItem_Open";
-            this.toolStripMenuItem_Open.Size = new System.Drawing.Size(155, 22);
-            this.toolStripMenuItem_Open.Text = "Open User Info";
-            this.toolStripMenuItem_Open.Click += new System.EventHandler(this.toolStripMenuItem_Open_Click);
+            this.toolStripMenuItem_tray_exit.Name = "toolStripMenuItem_tray_exit";
+            this.toolStripMenuItem_tray_exit.Size = new System.Drawing.Size(216, 22);
+            this.toolStripMenuItem_tray_exit.Text = "Exit";
+            this.toolStripMenuItem_tray_exit.Click += new System.EventHandler(this.toolStripMenuItem_tray_exit_Click);
+            // 
+            // textBox_registerText
+            // 
+            this.textBox_registerText.Location = new System.Drawing.Point(12, 499);
+            this.textBox_registerText.Name = "textBox_registerText";
+            this.textBox_registerText.Size = new System.Drawing.Size(178, 21);
+            this.textBox_registerText.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 484);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(105, 12);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "민감데이터 테스트";
+            // 
+            // button_register
+            // 
+            this.button_register.Location = new System.Drawing.Point(14, 526);
+            this.button_register.Name = "button_register";
+            this.button_register.Size = new System.Drawing.Size(75, 23);
+            this.button_register.TabIndex = 8;
+            this.button_register.Text = "등록";
+            this.button_register.UseVisualStyleBackColor = true;
+            this.button_register.Click += new System.EventHandler(this.button_register_Click);
+            // 
+            // button_sDataList
+            // 
+            this.button_sDataList.Location = new System.Drawing.Point(115, 526);
+            this.button_sDataList.Name = "button_sDataList";
+            this.button_sDataList.Size = new System.Drawing.Size(75, 23);
+            this.button_sDataList.TabIndex = 9;
+            this.button_sDataList.Text = "목록";
+            this.button_sDataList.UseVisualStyleBackColor = true;
+            this.button_sDataList.Click += new System.EventHandler(this.button_sDataList_Click);
+            // 
+            // textBox_showPayload
+            // 
+            this.textBox_showPayload.Location = new System.Drawing.Point(14, 121);
+            this.textBox_showPayload.Multiline = true;
+            this.textBox_showPayload.Name = "textBox_showPayload";
+            this.textBox_showPayload.Size = new System.Drawing.Size(176, 360);
+            this.textBox_showPayload.TabIndex = 10;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(986, 561);
+            this.Controls.Add(this.textBox_showPayload);
+            this.Controls.Add(this.button_sDataList);
+            this.Controls.Add(this.button_register);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.textBox_registerText);
             this.Controls.Add(this.button_CaptureStop);
             this.Controls.Add(this.button_CaptureRestart);
             this.Controls.Add(this.label1);
@@ -320,6 +374,11 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_tray_activate;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Open;
+        private System.Windows.Forms.TextBox textBox_registerText;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button button_register;
+        private System.Windows.Forms.Button button_sDataList;
+        public System.Windows.Forms.TextBox textBox_showPayload;
     }
 }
 
