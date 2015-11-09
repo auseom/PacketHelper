@@ -164,13 +164,13 @@ namespace Packet_Helper
 
         private void appExit()
         {
-            if (!CapturePacket.BackgroundThreadStop)
+            if (CapturePacket.BackgroundThreadStop)
             {
                 capturePacket.device.StopCapture();
                 CapturePacket.BackgroundThreadStop = true;
                 capturePacket.device.Close();
+                capturePacket.backgroundThread.Abort();
             }
-            capturePacket.backgroundThread.Abort();
 
             notifyIcon1.Visible = false;
             Application.ExitThread();
