@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 using SharpPcap;
+using System.Text;
 
 namespace Packet_Helper
 {
@@ -48,7 +49,7 @@ namespace Packet_Helper
                 LastStatisticsOutput = Now;
             }
 
-            lock(QueueLock)
+            lock (QueueLock)
             {
                 PacketQueue.Add(e.Packet);
             }
@@ -56,11 +57,11 @@ namespace Packet_Helper
 
         private static void BackgroundThread()
         {
-            while(!BackgroundThreadStop)
+            while (!BackgroundThreadStop)
             {
                 bool shouldSleep = true;
 
-                lock(QueueLock)
+                lock (QueueLock)
                 {
                     if (PacketQueue.Count != 0)
                     {
@@ -75,13 +76,13 @@ namespace Packet_Helper
                 else
                 {
                     List<RawCapture> ourQueue;
-                    lock(QueueLock)
+                    lock (QueueLock)
                     {
                         ourQueue = PacketQueue;
                         PacketQueue = new List<RawCapture>();
                     }
 
-                    foreach(var packet in ourQueue)
+                    foreach (var packet in ourQueue)
                     {
                         ListViewItem newItem = new ListViewItem(count.ToString());
 
@@ -115,7 +116,7 @@ namespace Packet_Helper
                         {
                             continue;
                         }
-                        else if ((protocol != PacketDotNet.IPProtocolType.TCP) && (protocol != PacketDotNet.IPProtocolType.UDP))
+                        else if (protocol != PacketDotNet.IPProtocolType.TCP)
                         {
                             continue;
                         }
@@ -158,13 +159,11 @@ namespace Packet_Helper
          **/
         public static bool detectSensitiveData(PacketDotNet.TcpPacket tcpPacket)
         {
-            if ((tcpPacket.PayloadData != null) || (tcpPacket.PayloadPacket != null))
-            {
-                var tcpPacketHex = tcpPacket.PrintHex();
-                mainForm.textBox_showPayload.Text = tcpPacketHex;
-            }
+            var payload = BitConverter.ToString(tcpPacket.PayloadData);
+            MessageBox.Show(payload);
 
             return false;
         }
     }
 }
+ 
