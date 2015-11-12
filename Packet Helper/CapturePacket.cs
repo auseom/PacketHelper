@@ -31,7 +31,7 @@ namespace Packet_Helper
             device = dev;
             int readTimeoutMilliseconds = 1000;
 
-            backgroundThread = new System.Threading.Thread(BackgroundThread);
+            backgroundThread = new Thread(BackgroundThread);
             backgroundThread.Start();
 
             device.OnPacketArrival += new PacketArrivalEventHandler(device_OnPacketArrival);
@@ -71,7 +71,7 @@ namespace Packet_Helper
 
                 if (shouldSleep)
                 {
-                    System.Threading.Thread.Sleep(250);
+                    Thread.Sleep(250);
                 }
                 else
                 {
@@ -84,13 +84,25 @@ namespace Packet_Helper
 
                     foreach (var packet in ourQueue)
                     {
+                        /* Simple Packet Composition (Packet.Net) and It will be continually updated...
+
+                        In case of TCP, A TCP packet captured on Ethernet may be "Ethernet packet -> IP packet -> TCP packet"
+                        So in Packet.Net the TCP packet could be accessed like capturedPacket(Ethernet).PayloadPacket(IP).PayloadPacket(TCP)
+                        The other way, the Ethernet packet could be accessed like tcpPacket.ParentPacket(IP).ParentPacket(Ethernet)
+
+                        Each packet also have a payload part. And It's could be accessed like TcpPacket.PayloadData
+
+                        Each two Hex (8bit) in Hex dump of the packet(e.g 90 9F 33 57 ...) is length 1 (1 byte)
+                        */
+
                         ListViewItem newItem = new ListViewItem(count.ToString());
 
                         var packetLength = packet.Data.Length;
                         var time = packet.Timeval.Date;
                         var thisPacket = PacketDotNet.Packet.ParsePacket(packet.LinkLayerType, packet.Data);
                         var tcpPacket = (PacketDotNet.TcpPacket)thisPacket.Extract(typeof(PacketDotNet.TcpPacket));
-                        var containsSensitiveData = false;
+                        /* Check if it contains sensitive data */
+                        var containsSensitiveData = detectSensitiveData(retPayloadBytes(packet, packetLength));
 
                         System.Net.IPAddress srcIp = System.Net.IPAddress.None;
                         System.Net.IPAddress dstIp = System.Net.IPAddress.None;
@@ -100,10 +112,6 @@ namespace Packet_Helper
 
                         if (tcpPacket != null)
                         {
-
-                            /* Check if it contains sensitive data */
-                            containsSensitiveData = detectSensitiveData(tcpPacket);
-
                             var ipPacket = (PacketDotNet.IpPacket)tcpPacket.ParentPacket;
                             srcIp = ipPacket.SourceAddress;
                             dstIp = ipPacket.DestinationAddress;
@@ -155,12 +163,64 @@ namespace Packet_Helper
         }
 
         /* Detecting sensitive data 
-         * I'm working on it...
+         * I'm working on it... Not finished
+         * http://www.binarytides.com/code-packet-sniffer-c-winpcap/
          **/
-        public static bool detectSensitiveData(PacketDotNet.TcpPacket tcpPacket)
+        public static byte[] retPayloadBytes(RawCapture packet, int packetLength)
         {
-            var payload = BitConverter.ToString(tcpPacket.PayloadData);
-            MessageBox.Show(payload);
+            var payload = BitConverter.ToString(packet.Data).Replace("-", string.Empty);
+            var payloadBytes = Encoding.UTF8.GetBytes(payload);
+
+            return payloadBytes;
+        } 
+
+        /* Not used for now */
+        public static void showHexDump(string payload, int packetLength)
+        {
+            char ch;
+            byte temp;
+            byte[] line = new byte[17];
+            string output = "Data Payload \n";
+
+            var payloadArr = payload.ToCharArray();
+            var charNumIndex = 0;
+
+            for (int i = 0; i < packetLength; i++)
+            {
+                ch = payloadArr[i];
+
+                output += ch;
+                charNumIndex++;
+
+                if (charNumIndex % 2 == 0)
+                    output += " ";
+
+                var byteCh = Convert.ToByte(ch);
+                var byteDot = Convert.ToByte('.');
+                temp = (byteCh >= 32 && byteCh <= 128) ? byteCh : byteDot;
+                line[i % 16] = temp;
+
+                if ((i != 0 && (i + 1) % 16 == 0) || i == packetLength - 1)
+                {
+                    //line[i % 16 + 1] = Convert.ToByte('\0');
+                    output += "          ";
+
+                    for (int j = line.Length; j < 16; j++)
+                        output += "   ";
+
+                    //var lineAscii = Encoding.ASCII.GetString(line);
+                    //output += lineAscii + " \n";
+                    output += line + " \n";
+                    //output += "\n";
+                    charNumIndex = 0;
+                }
+            }
+
+            MessageBox.Show(output);
+        }
+
+        public static bool detectSensitiveData(byte[] packetBytes)
+        {
 
             return false;
         }
