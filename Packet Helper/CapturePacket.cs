@@ -101,8 +101,12 @@ namespace Packet_Helper
                         var time = packet.Timeval.Date;
                         var thisPacket = PacketDotNet.Packet.ParsePacket(packet.LinkLayerType, packet.Data);
                         var tcpPacket = (PacketDotNet.TcpPacket)thisPacket.Extract(typeof(PacketDotNet.TcpPacket));
+
+                        /* Show payload */
+                        showHexDump(packet.Data, packetLength);
+
                         /* Check if it contains sensitive data */
-                        var containsSensitiveData = detectSensitiveData(retPayloadBytes(packet, packetLength));
+                        var containsSensitiveData = detectSensitiveData(packet.Data);
 
                         System.Net.IPAddress srcIp = System.Net.IPAddress.None;
                         System.Net.IPAddress dstIp = System.Net.IPAddress.None;
@@ -164,63 +168,59 @@ namespace Packet_Helper
 
         /* Detecting sensitive data 
          * I'm working on it... Not finished
-         * http://www.binarytides.com/code-packet-sniffer-c-winpcap/
          **/
-        public static byte[] retPayloadBytes(RawCapture packet, int packetLength)
-        {
-            var payload = BitConverter.ToString(packet.Data).Replace("-", string.Empty);
-            var payloadBytes = Encoding.UTF8.GetBytes(payload);
-
-            return payloadBytes;
-        } 
 
         /* Not used for now */
-        public static void showHexDump(string payload, int packetLength)
+        public static void showHexDump(byte[] payload, int packetLength)
         {
             char ch;
-            byte temp;
-            byte[] line = new byte[17];
-            string output = "Data Payload \n";
+            string outputHexDump = "Data Payload \n";
+            string outputASCII = "ASCII \n";
 
-            var payloadArr = payload.ToCharArray();
+            var payloadHexDump = BitConverter.ToString(payload).Replace("-", string.Empty);
+            var payloadASCII = Encoding.ASCII.GetString(payload);
+       
+            var payloadHexDumpArr = payloadHexDump.ToCharArray();
+            var payloadASCIIArr = payloadASCII.ToCharArray();
+
             var charNumIndex = 0;
 
             for (int i = 0; i < packetLength; i++)
             {
-                ch = payloadArr[i];
+                ch = payloadHexDumpArr[i];
 
-                output += ch;
+                outputHexDump += ch;
                 charNumIndex++;
 
                 if (charNumIndex % 2 == 0)
-                    output += " ";
+                    outputHexDump += " ";
 
-                var byteCh = Convert.ToByte(ch);
-                var byteDot = Convert.ToByte('.');
-                temp = (byteCh >= 32 && byteCh <= 128) ? byteCh : byteDot;
-                line[i % 16] = temp;
-
-                if ((i != 0 && (i + 1) % 16 == 0) || i == packetLength - 1)
-                {
-                    //line[i % 16 + 1] = Convert.ToByte('\0');
-                    output += "          ";
-
-                    for (int j = line.Length; j < 16; j++)
-                        output += "   ";
-
-                    //var lineAscii = Encoding.ASCII.GetString(line);
-                    //output += lineAscii + " \n";
-                    output += line + " \n";
-                    //output += "\n";
-                    charNumIndex = 0;
-                }
+                if (charNumIndex % 30 == 0)
+                    outputHexDump += " \n";
             }
 
-            MessageBox.Show(output);
+            for (int i = 0; i < packetLength; i++)
+            {
+                ch = payloadASCIIArr[i];
+
+                ch = (ch >= 32 && ch <= 128) ? ch : '.';
+
+                outputASCII += ch;
+                charNumIndex++;
+
+                if (charNumIndex % 2 == 0)
+                    outputASCII += " ";
+
+                if (charNumIndex % 30 == 0)
+                    outputASCII += " \n";
+            }
+
+            MessageBox.Show(outputHexDump + "\n\n" + outputASCII);
         }
 
-        public static bool detectSensitiveData(byte[] packetBytes)
+        public static bool detectSensitiveData(byte[] payload)
         {
+
 
             return false;
         }
