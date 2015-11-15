@@ -102,11 +102,11 @@ namespace Packet_Helper
                         var thisPacket = PacketDotNet.Packet.ParsePacket(packet.LinkLayerType, packet.Data);
                         var tcpPacket = (PacketDotNet.TcpPacket)thisPacket.Extract(typeof(PacketDotNet.TcpPacket));
 
-                        /* Show payload */
-                        showHexDump(packet.Data, packetLength);
-
                         /* Check if it contains sensitive data */
                         var containsSensitiveData = detectSensitiveData(packet.Data);
+
+                        /* Show payload */
+                        //showHexDump(packet.Data, packetLength);
 
                         System.Net.IPAddress srcIp = System.Net.IPAddress.None;
                         System.Net.IPAddress dstIp = System.Net.IPAddress.None;
@@ -143,6 +143,8 @@ namespace Packet_Helper
                             newItem.SubItems.Add(dstPort.ToString());
                             newItem.SubItems.Add(packetLength.ToString());
                             newItem.SubItems.Add("");
+                            if (containsSensitiveData)
+                                newItem.BackColor = System.Drawing.Color.OrangeRed;
 
                             mainForm.listView_PacketActivity.BeginUpdate();
                             mainForm.listView_PacketActivity.Items.Add(newItem);
@@ -171,7 +173,7 @@ namespace Packet_Helper
          **/
 
         /* Not used for now */
-        public static void showHexDump(byte[] payload, int packetLength)
+        private static void showHexDump(byte[] payload, int packetLength)
         {
             char ch;
             string outputHexDump = "Data Payload \n";
@@ -179,7 +181,7 @@ namespace Packet_Helper
 
             var payloadHexDump = BitConverter.ToString(payload).Replace("-", string.Empty);
             var payloadASCII = Encoding.ASCII.GetString(payload);
-       
+
             var payloadHexDumpArr = payloadHexDump.ToCharArray();
             var payloadASCIIArr = payloadASCII.ToCharArray();
 
@@ -203,6 +205,7 @@ namespace Packet_Helper
             {
                 ch = payloadASCIIArr[i];
 
+                /* Is it work? */
                 ch = (ch >= 32 && ch <= 128) ? ch : '.';
 
                 outputASCII += ch;
@@ -215,12 +218,21 @@ namespace Packet_Helper
                     outputASCII += " \n";
             }
 
-            MessageBox.Show(outputHexDump + "\n\n" + outputASCII);
+            //mainForm.textBox_showPayload.Text = outputHexDump + "\n\n" + outputASCII;
         }
 
-        public static bool detectSensitiveData(byte[] payload)
+        private static bool detectSensitiveData(byte[] payload)
         {
+            var payloadASCII = Encoding.ASCII.GetString(payload);
 
+            foreach (var sensitiveData in mainForm.sensitiveDataList)
+            {
+                if (payloadASCII.Contains(sensitiveData))
+                {
+                    MessageBox.Show("Sending sensitive data detected!\nContent: " + sensitiveData);
+                    return true;
+                }
+            }
 
             return false;
         }

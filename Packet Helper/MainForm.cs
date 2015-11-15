@@ -9,16 +9,18 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using SharpPcap;
-using System.Collections;
 
 namespace Packet_Helper
 {
     public partial class MainForm : Form
     {
-        public static List<ICaptureDevice> deviceList;
         private static ICaptureDevice device;
-        public ArrayList sensitiveDataArr;
-        CapturePacket capturePacket;
+        private CapturePacket capturePacket;
+        private int count;
+
+        public static List<ICaptureDevice> deviceList;
+        public List<string> sensitiveDataList;
+
 
         public MainForm()
         {
@@ -29,8 +31,9 @@ namespace Packet_Helper
         {
             listDevicesToComboBox();
             capturePacket = new CapturePacket(this);
-            sensitiveDataArr = new ArrayList();
+            sensitiveDataList = new List<string>();
             toolStripMenuItem_tray_activate.Enabled = false;
+            count = 1;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -39,16 +42,23 @@ namespace Packet_Helper
             this.Visible = false;
         }
 
-        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        private void comboBox_DevList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.Visible = true;
-            if (this.WindowState == FormWindowState.Minimized)
-            {
-                this.WindowState = FormWindowState.Normal;
-            }
-            this.Activate();
+            device = deviceList[comboBox_DevList.SelectedIndex];
+            capturePacket.listingPackets(device);
+
+            toolStripMenuItem_tray_activate.Enabled = true;
+            notifyIcon.Text = "Packet Helper: Activated";
+            toolStripMenuItem_tray_activate.Text = "Stop";
         }
 
+        /* Event about tray icon */
+        private void notifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        /* Tray Tool Strip Menu Items */
         private void toolStripMenuItem_tray_activate_Click(object sender, EventArgs e)
         {
             if (!toolStripMenuItem_tray_activate.Enabled)
@@ -69,39 +79,7 @@ namespace Packet_Helper
             appExit();
         }
 
-        private void comboBox_DevList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            device = deviceList[comboBox_DevList.SelectedIndex];
-            capturePacket.listingPackets(device);
-
-            toolStripMenuItem_tray_activate.Enabled = true;
-            notifyIcon1.Text = "Packet Helper: Activated";
-            toolStripMenuItem_tray_activate.Text = "Stop";
-        }
-
-        private void button_CaptureRestart_Click(object sender, EventArgs e)
-        {
-            resumeCaptureRoutine();
-        }
-
-        private void button_CaptureStop_Click(object sender, EventArgs e)
-        {
-            stopCaptureRoutine();
-        }
-
-        /* Testing for detecting user registered sensitive data */
-        private void button_register_Click(object sender, EventArgs e)
-        {
-            sensitiveDataArr.Add(textBox_registerText.Text);
-            /* It will be used in CapturePacket.cs */
-        }
-
-        /* Listing what data is registered */
-        private void button_sDataList_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        /* Tool Strip Menu Items */
         private void toolStripMenuItem_Open_Click(object sender, EventArgs e)
         {
 
@@ -127,9 +105,40 @@ namespace Packet_Helper
 
         }
 
-        /*
-         * User Defined Methods
-         **/
+        /* Buttons */
+        private void button_CaptureRestart_Click(object sender, EventArgs e)
+        {
+            resumeCaptureRoutine();
+        }
+
+        private void button_CaptureStop_Click(object sender, EventArgs e)
+        {
+            stopCaptureRoutine();
+        }
+
+        private void button_registerSData_Click(object sender, EventArgs e)
+        {
+            var curListCount = sensitiveDataList.Count;
+
+            registerSensitiveData registerSDataForm = new registerSensitiveData(this);
+            registerSDataForm.ShowDialog();
+
+            for (int i = curListCount; i < sensitiveDataList.Count; i++)
+            {
+                ListViewItem newItem = new ListViewItem(count.ToString());
+                newItem.SubItems.Add(sensitiveDataList[i]);
+
+                listView_sensitiveData.Items.Add(newItem);
+                count++;
+            }
+        }
+
+        private void button_deleteSData_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /* User Define Methods */
         private void listDevicesToComboBox()
         {
             deviceList = DeviceList.GetDevices();
@@ -143,8 +152,8 @@ namespace Packet_Helper
             {
                 foreach (ICaptureDevice dev in deviceList)
                 {
-                    //"FrindlyName:" 부터 "\n" 사이의 문자열 파싱
-                    //제공되는 속성들에는 FriendlyName만 따로 주는 건 없음
+                    //String parsing from "FrindlyName:" to "\n"
+                    //There's no property supports only Friendly Name
                     devInfoTemp = dev.ToString();
                     devInfoSplitted = devInfoTemp.Split(delimiterChars);
                     devFriendlyName = devInfoSplitted[5];
@@ -161,28 +170,20 @@ namespace Packet_Helper
         private void resumeCaptureRoutine()
         {
             capturePacket.restartCapture();
-            toolStripMenuItem_tray_activate.Text = "Resume";
-            notifyIcon1.Text = "Packet Helper: Activated";
+            toolStripMenuItem_tray_activate.Text = "Stop";
+            notifyIcon.Text = "Packet Helper: Activated";
         }
 
         private void stopCaptureRoutine()
         {
             capturePacket.stopCapture();
-            toolStripMenuItem_tray_activate.Text = "Stop";
-            notifyIcon1.Text = "Packet Helper: Deactivated";
+            toolStripMenuItem_tray_activate.Text = "Resume";
+            notifyIcon.Text = "Packet Helper: Deactivated";
         }
 
         private void appExit()
         {
-            if (CapturePacket.BackgroundThreadStop)
-            {
-                capturePacket.device.StopCapture();
-                CapturePacket.BackgroundThreadStop = true;
-                capturePacket.device.Close();
-                capturePacket.backgroundThread.Abort();
-            }
-
-            notifyIcon1.Visible = false;
+            notifyIcon.Visible = false;
             Application.ExitThread();
             Environment.Exit(0);
         }

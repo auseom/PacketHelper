@@ -52,16 +52,17 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button_CaptureRestart = new System.Windows.Forms.Button();
             this.button_CaptureStop = new System.Windows.Forms.Button();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip_tray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem_tray_activate = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem_tray_exit = new System.Windows.Forms.ToolStripMenuItem();
-            this.textBox_registerText = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button_register = new System.Windows.Forms.Button();
-            this.button_sDataList = new System.Windows.Forms.Button();
-            this.textBox_showPayload = new System.Windows.Forms.TextBox();
+            this.button_deleteSData = new System.Windows.Forms.Button();
+            this.listView_sensitiveData = new System.Windows.Forms.ListView();
+            this.label_sensitiveDataList = new System.Windows.Forms.Label();
+            this.button_registerSData = new System.Windows.Forms.Button();
+            this.columnHeader_sDataList_No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader_sDataList_name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip_tray.SuspendLayout();
             this.SuspendLayout();
@@ -236,13 +237,13 @@
             this.button_CaptureStop.UseVisualStyleBackColor = true;
             this.button_CaptureStop.Click += new System.EventHandler(this.button_CaptureStop_Click);
             // 
-            // notifyIcon1
+            // notifyIcon
             // 
-            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip_tray;
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "Packet Helper";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
+            this.notifyIcon.ContextMenuStrip = this.contextMenuStrip_tray;
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "Packet Helper";
+            this.notifyIcon.Visible = true;
+            this.notifyIcon.DoubleClick += new System.EventHandler(this.notifyIcon_DoubleClick);
             // 
             // contextMenuStrip_tray
             // 
@@ -272,60 +273,67 @@
             this.toolStripMenuItem_tray_exit.Text = "Exit";
             this.toolStripMenuItem_tray_exit.Click += new System.EventHandler(this.toolStripMenuItem_tray_exit_Click);
             // 
-            // textBox_registerText
+            // button_deleteSData
             // 
-            this.textBox_registerText.Location = new System.Drawing.Point(12, 499);
-            this.textBox_registerText.Name = "textBox_registerText";
-            this.textBox_registerText.Size = new System.Drawing.Size(178, 21);
-            this.textBox_registerText.TabIndex = 6;
+            this.button_deleteSData.Location = new System.Drawing.Point(117, 526);
+            this.button_deleteSData.Name = "button_deleteSData";
+            this.button_deleteSData.Size = new System.Drawing.Size(75, 23);
+            this.button_deleteSData.TabIndex = 9;
+            this.button_deleteSData.Text = "삭제";
+            this.button_deleteSData.UseVisualStyleBackColor = true;
+            this.button_deleteSData.Click += new System.EventHandler(this.button_deleteSData_Click);
             // 
-            // label2
+            // listView_sensitiveData
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 484);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(105, 12);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "민감데이터 테스트";
+            this.listView_sensitiveData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_sDataList_No,
+            this.columnHeader_sDataList_name});
+            this.listView_sensitiveData.Location = new System.Drawing.Point(10, 265);
+            this.listView_sensitiveData.Name = "listView_sensitiveData";
+            this.listView_sensitiveData.Size = new System.Drawing.Size(180, 255);
+            this.listView_sensitiveData.TabIndex = 10;
+            this.listView_sensitiveData.UseCompatibleStateImageBehavior = false;
+            this.listView_sensitiveData.View = System.Windows.Forms.View.Details;
             // 
-            // button_register
+            // label_sensitiveDataList
             // 
-            this.button_register.Location = new System.Drawing.Point(14, 526);
-            this.button_register.Name = "button_register";
-            this.button_register.Size = new System.Drawing.Size(75, 23);
-            this.button_register.TabIndex = 8;
-            this.button_register.Text = "등록";
-            this.button_register.UseVisualStyleBackColor = true;
-            this.button_register.Click += new System.EventHandler(this.button_register_Click);
+            this.label_sensitiveDataList.AutoSize = true;
+            this.label_sensitiveDataList.Location = new System.Drawing.Point(12, 250);
+            this.label_sensitiveDataList.Name = "label_sensitiveDataList";
+            this.label_sensitiveDataList.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label_sensitiveDataList.Size = new System.Drawing.Size(109, 12);
+            this.label_sensitiveDataList.TabIndex = 11;
+            this.label_sensitiveDataList.Text = "Sensitive Data List";
             // 
-            // button_sDataList
+            // button_registerSData
             // 
-            this.button_sDataList.Location = new System.Drawing.Point(115, 526);
-            this.button_sDataList.Name = "button_sDataList";
-            this.button_sDataList.Size = new System.Drawing.Size(75, 23);
-            this.button_sDataList.TabIndex = 9;
-            this.button_sDataList.Text = "목록";
-            this.button_sDataList.UseVisualStyleBackColor = true;
-            this.button_sDataList.Click += new System.EventHandler(this.button_sDataList_Click);
+            this.button_registerSData.Location = new System.Drawing.Point(10, 526);
+            this.button_registerSData.Name = "button_registerSData";
+            this.button_registerSData.Size = new System.Drawing.Size(75, 23);
+            this.button_registerSData.TabIndex = 12;
+            this.button_registerSData.Text = "등록";
+            this.button_registerSData.UseVisualStyleBackColor = true;
+            this.button_registerSData.Click += new System.EventHandler(this.button_registerSData_Click);
             // 
-            // textBox_showPayload
+            // columnHeader_sDataList_No
             // 
-            this.textBox_showPayload.Location = new System.Drawing.Point(14, 121);
-            this.textBox_showPayload.Multiline = true;
-            this.textBox_showPayload.Name = "textBox_showPayload";
-            this.textBox_showPayload.Size = new System.Drawing.Size(176, 360);
-            this.textBox_showPayload.TabIndex = 10;
+            this.columnHeader_sDataList_No.Text = "#";
+            this.columnHeader_sDataList_No.Width = 20;
+            // 
+            // columnHeader_sDataList_name
+            // 
+            this.columnHeader_sDataList_name.Text = "Content";
+            this.columnHeader_sDataList_name.Width = 150;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(986, 561);
-            this.Controls.Add(this.textBox_showPayload);
-            this.Controls.Add(this.button_sDataList);
-            this.Controls.Add(this.button_register);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox_registerText);
+            this.Controls.Add(this.button_registerSData);
+            this.Controls.Add(this.label_sensitiveDataList);
+            this.Controls.Add(this.listView_sensitiveData);
+            this.Controls.Add(this.button_deleteSData);
             this.Controls.Add(this.button_CaptureStop);
             this.Controls.Add(this.button_CaptureRestart);
             this.Controls.Add(this.label1);
@@ -370,15 +378,16 @@
         private System.Windows.Forms.ColumnHeader columnHeader_DestPort;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_tray;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_tray_exit;
-        public System.Windows.Forms.NotifyIcon notifyIcon1;
+        public System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_tray_activate;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Open;
-        private System.Windows.Forms.TextBox textBox_registerText;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button_register;
-        private System.Windows.Forms.Button button_sDataList;
-        public System.Windows.Forms.TextBox textBox_showPayload;
+        private System.Windows.Forms.Button button_deleteSData;
+        private System.Windows.Forms.Label label_sensitiveDataList;
+        private System.Windows.Forms.Button button_registerSData;
+        public System.Windows.Forms.ListView listView_sensitiveData;
+        private System.Windows.Forms.ColumnHeader columnHeader_sDataList_No;
+        private System.Windows.Forms.ColumnHeader columnHeader_sDataList_name;
     }
 }
 
