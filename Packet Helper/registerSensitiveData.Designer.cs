@@ -29,46 +29,95 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(registerSensitiveData));
-            this.button_register = new System.Windows.Forms.Button();
+            this.button_add = new System.Windows.Forms.Button();
             this.textBox_sensitiveData = new System.Windows.Forms.TextBox();
-            this.button_close = new System.Windows.Forms.Button();
+            this.button_closeAndRegister = new System.Windows.Forms.Button();
+            this.checkBox_hide = new System.Windows.Forms.CheckBox();
+            this.listView_tempSensitiveData = new System.Windows.Forms.ListView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.columnHeader_temp_No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader_temp_name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
-            // button_register
+            // button_add
             // 
-            this.button_register.Location = new System.Drawing.Point(12, 138);
-            this.button_register.Name = "button_register";
-            this.button_register.Size = new System.Drawing.Size(75, 23);
-            this.button_register.TabIndex = 0;
-            this.button_register.Text = "등록";
-            this.button_register.UseVisualStyleBackColor = true;
-            this.button_register.Click += new System.EventHandler(this.button_register_Click);
+            this.button_add.Location = new System.Drawing.Point(12, 199);
+            this.button_add.Name = "button_add";
+            this.button_add.Size = new System.Drawing.Size(75, 23);
+            this.button_add.TabIndex = 0;
+            this.button_add.Text = "Add";
+            this.button_add.UseVisualStyleBackColor = true;
+            this.button_add.Click += new System.EventHandler(this.button_add_Click);
             // 
             // textBox_sensitiveData
             // 
-            this.textBox_sensitiveData.Location = new System.Drawing.Point(12, 111);
+            this.textBox_sensitiveData.Location = new System.Drawing.Point(12, 24);
             this.textBox_sensitiveData.Name = "textBox_sensitiveData";
             this.textBox_sensitiveData.Size = new System.Drawing.Size(260, 21);
             this.textBox_sensitiveData.TabIndex = 1;
             // 
-            // button_close
+            // button_closeAndRegister
             // 
-            this.button_close.Location = new System.Drawing.Point(197, 138);
-            this.button_close.Name = "button_close";
-            this.button_close.Size = new System.Drawing.Size(75, 23);
-            this.button_close.TabIndex = 2;
-            this.button_close.Text = "닫기";
-            this.button_close.UseVisualStyleBackColor = true;
-            this.button_close.Click += new System.EventHandler(this.button_close_Click);
+            this.button_closeAndRegister.Location = new System.Drawing.Point(137, 199);
+            this.button_closeAndRegister.Name = "button_closeAndRegister";
+            this.button_closeAndRegister.Size = new System.Drawing.Size(135, 23);
+            this.button_closeAndRegister.TabIndex = 2;
+            this.button_closeAndRegister.Text = "Close and Register";
+            this.button_closeAndRegister.UseVisualStyleBackColor = true;
+            this.button_closeAndRegister.Click += new System.EventHandler(this.button_closeAndRegister_Click);
+            // 
+            // checkBox_hide
+            // 
+            this.checkBox_hide.AutoSize = true;
+            this.checkBox_hide.Location = new System.Drawing.Point(177, 51);
+            this.checkBox_hide.Name = "checkBox_hide";
+            this.checkBox_hide.Size = new System.Drawing.Size(95, 16);
+            this.checkBox_hide.TabIndex = 3;
+            this.checkBox_hide.Text = "Hide at main";
+            this.checkBox_hide.UseVisualStyleBackColor = true;
+            // 
+            // listView_tempSensitiveData
+            // 
+            this.listView_tempSensitiveData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_temp_No,
+            this.columnHeader_temp_name});
+            this.listView_tempSensitiveData.Location = new System.Drawing.Point(12, 73);
+            this.listView_tempSensitiveData.Name = "listView_tempSensitiveData";
+            this.listView_tempSensitiveData.Size = new System.Drawing.Size(260, 120);
+            this.listView_tempSensitiveData.TabIndex = 4;
+            this.listView_tempSensitiveData.UseCompatibleStateImageBehavior = false;
+            this.listView_tempSensitiveData.View = System.Windows.Forms.View.Details;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(143, 12);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Input your sensitive data";
+            // 
+            // columnHeader_temp_No
+            // 
+            this.columnHeader_temp_No.Text = "#";
+            this.columnHeader_temp_No.Width = 20;
+            // 
+            // columnHeader_temp_name
+            // 
+            this.columnHeader_temp_name.Text = "Content";
+            this.columnHeader_temp_name.Width = 235;
             // 
             // registerSensitiveData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 173);
-            this.Controls.Add(this.button_close);
+            this.ClientSize = new System.Drawing.Size(284, 234);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.listView_tempSensitiveData);
+            this.Controls.Add(this.checkBox_hide);
+            this.Controls.Add(this.button_closeAndRegister);
             this.Controls.Add(this.textBox_sensitiveData);
-            this.Controls.Add(this.button_register);
+            this.Controls.Add(this.button_add);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "registerSensitiveData";
             this.Text = "Register Data";
@@ -79,8 +128,13 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button_register;
+        private System.Windows.Forms.Button button_add;
         private System.Windows.Forms.TextBox textBox_sensitiveData;
-        private System.Windows.Forms.Button button_close;
+        private System.Windows.Forms.Button button_closeAndRegister;
+        private System.Windows.Forms.CheckBox checkBox_hide;
+        private System.Windows.Forms.ListView listView_tempSensitiveData;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ColumnHeader columnHeader_temp_No;
+        private System.Windows.Forms.ColumnHeader columnHeader_temp_name;
     }
 }

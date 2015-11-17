@@ -8,6 +8,7 @@ namespace Packet_Helper
     {
         MainForm mainForm;
         private List<string> tempSensitiveDataList;
+        private int count;
 
         public registerSensitiveData(MainForm main)
         {
@@ -15,16 +16,47 @@ namespace Packet_Helper
 
             mainForm = main;
             tempSensitiveDataList = new List<string>();
+            count = 1;
         }
 
-        private void button_register_Click(object sender, EventArgs e)
+        private void button_add_Click(object sender, EventArgs e)
         {
-            tempSensitiveDataList.Add(textBox_sensitiveData.Text);
+            var tempSensitiveData = textBox_sensitiveData.Text;
+
+            ListViewItem tempItem = new ListViewItem(count.ToString());
+            tempItem.SubItems.Add(tempSensitiveData);
+            listView_tempSensitiveData.Items.Add(tempItem);
+            count++;
+
+            if (checkBox_hide.Checked)
+                tempSensitiveData += ", HiDe!!";
+
+            tempSensitiveDataList.Add(tempSensitiveData);
+            textBox_sensitiveData.Text = string.Empty;
         }
 
-        private void button_close_Click(object sender, EventArgs e)
+        private void button_closeAndRegister_Click(object sender, EventArgs e)
         {
-            mainForm.sensitiveDataList.AddRange(tempSensitiveDataList);
+            try
+            {
+                mainForm.sensitiveDataList.AddRange(tempSensitiveDataList);
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show("Error occured!\n" + _e);
+            }
+
+            var registerDataResult = string.Empty;
+            for (int i = 0; i < tempSensitiveDataList.Count; i++)
+            {
+                var data = tempSensitiveDataList[i];
+
+                registerDataResult += data;
+                if (i + 1 < tempSensitiveDataList.Count)
+                    registerDataResult += ", ";
+            }
+
+            MessageBox.Show("Add to Sensitive Data List\n" + registerDataResult);
 
             this.Close();
         }

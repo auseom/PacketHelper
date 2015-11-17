@@ -125,6 +125,8 @@ namespace Packet_Helper
 
             for (int i = curListCount; i < sensitiveDataList.Count; i++)
             {
+                /* If sensitiveDataList[i] has a string ", HiDe", It will be added by "*" to the list */
+                //var sensitiveDataContent = 
                 ListViewItem newItem = new ListViewItem(count.ToString());
                 newItem.SubItems.Add(sensitiveDataList[i]);
 

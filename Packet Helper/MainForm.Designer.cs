@@ -59,10 +59,10 @@
             this.toolStripMenuItem_tray_exit = new System.Windows.Forms.ToolStripMenuItem();
             this.button_deleteSData = new System.Windows.Forms.Button();
             this.listView_sensitiveData = new System.Windows.Forms.ListView();
-            this.label_sensitiveDataList = new System.Windows.Forms.Label();
-            this.button_registerSData = new System.Windows.Forms.Button();
             this.columnHeader_sDataList_No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_sDataList_name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label_sensitiveDataList = new System.Windows.Forms.Label();
+            this.button_registerSData = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip_tray.SuspendLayout();
             this.SuspendLayout();
@@ -279,7 +279,7 @@
             this.button_deleteSData.Name = "button_deleteSData";
             this.button_deleteSData.Size = new System.Drawing.Size(75, 23);
             this.button_deleteSData.TabIndex = 9;
-            this.button_deleteSData.Text = "삭제";
+            this.button_deleteSData.Text = "Delete";
             this.button_deleteSData.UseVisualStyleBackColor = true;
             this.button_deleteSData.Click += new System.EventHandler(this.button_deleteSData_Click);
             // 
@@ -294,6 +294,16 @@
             this.listView_sensitiveData.TabIndex = 10;
             this.listView_sensitiveData.UseCompatibleStateImageBehavior = false;
             this.listView_sensitiveData.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader_sDataList_No
+            // 
+            this.columnHeader_sDataList_No.Text = "#";
+            this.columnHeader_sDataList_No.Width = 20;
+            // 
+            // columnHeader_sDataList_name
+            // 
+            this.columnHeader_sDataList_name.Text = "Content";
+            this.columnHeader_sDataList_name.Width = 150;
             // 
             // label_sensitiveDataList
             // 
@@ -311,19 +321,9 @@
             this.button_registerSData.Name = "button_registerSData";
             this.button_registerSData.Size = new System.Drawing.Size(75, 23);
             this.button_registerSData.TabIndex = 12;
-            this.button_registerSData.Text = "등록";
+            this.button_registerSData.Text = "Register";
             this.button_registerSData.UseVisualStyleBackColor = true;
             this.button_registerSData.Click += new System.EventHandler(this.button_registerSData_Click);
-            // 
-            // columnHeader_sDataList_No
-            // 
-            this.columnHeader_sDataList_No.Text = "#";
-            this.columnHeader_sDataList_No.Width = 20;
-            // 
-            // columnHeader_sDataList_name
-            // 
-            this.columnHeader_sDataList_name.Text = "Content";
-            this.columnHeader_sDataList_name.Width = 150;
             // 
             // MainForm
             // 
