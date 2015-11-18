@@ -34,9 +34,10 @@
             this.button_closeAndRegister = new System.Windows.Forms.Button();
             this.checkBox_hide = new System.Windows.Forms.CheckBox();
             this.listView_tempSensitiveData = new System.Windows.Forms.ListView();
-            this.label1 = new System.Windows.Forms.Label();
             this.columnHeader_temp_No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_temp_name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label1 = new System.Windows.Forms.Label();
+            this.columnHeader_temp_checkHide = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // button_add
@@ -80,13 +81,24 @@
             // 
             this.listView_tempSensitiveData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader_temp_No,
-            this.columnHeader_temp_name});
+            this.columnHeader_temp_name,
+            this.columnHeader_temp_checkHide});
             this.listView_tempSensitiveData.Location = new System.Drawing.Point(12, 73);
             this.listView_tempSensitiveData.Name = "listView_tempSensitiveData";
             this.listView_tempSensitiveData.Size = new System.Drawing.Size(260, 120);
             this.listView_tempSensitiveData.TabIndex = 4;
             this.listView_tempSensitiveData.UseCompatibleStateImageBehavior = false;
             this.listView_tempSensitiveData.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader_temp_No
+            // 
+            this.columnHeader_temp_No.Text = "#";
+            this.columnHeader_temp_No.Width = 20;
+            // 
+            // columnHeader_temp_name
+            // 
+            this.columnHeader_temp_name.Text = "Content";
+            this.columnHeader_temp_name.Width = 195;
             // 
             // label1
             // 
@@ -97,15 +109,10 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Input your sensitive data";
             // 
-            // columnHeader_temp_No
+            // columnHeader_temp_checkHide
             // 
-            this.columnHeader_temp_No.Text = "#";
-            this.columnHeader_temp_No.Width = 20;
-            // 
-            // columnHeader_temp_name
-            // 
-            this.columnHeader_temp_name.Text = "Content";
-            this.columnHeader_temp_name.Width = 235;
+            this.columnHeader_temp_checkHide.Text = "Hide";
+            this.columnHeader_temp_checkHide.Width = 40;
             // 
             // registerSensitiveData
             // 
@@ -136,5 +143,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ColumnHeader columnHeader_temp_No;
         private System.Windows.Forms.ColumnHeader columnHeader_temp_name;
+        private System.Windows.Forms.ColumnHeader columnHeader_temp_checkHide;
     }
 }

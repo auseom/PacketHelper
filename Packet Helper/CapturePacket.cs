@@ -13,13 +13,16 @@ namespace Packet_Helper
         public ICaptureDevice device;
 
         public Thread backgroundThread;
+
         public static bool BackgroundThreadStop = false;
         private static object QueueLock = new object();
         private static List<RawCapture> PacketQueue = new List<RawCapture>();
         private static DateTime LastStatisticsOutput = DateTime.Now;
         private static TimeSpan LastStatisticsInterval = new TimeSpan(0, 0, 2);
 
+        private static string detectedDataResult = string.Empty;
         public static int count = 1;
+        
 
         public CapturePacket(MainForm main)
         {
@@ -144,7 +147,9 @@ namespace Packet_Helper
                             newItem.SubItems.Add(packetLength.ToString());
                             newItem.SubItems.Add("");
                             if (containsSensitiveData)
+                            {
                                 newItem.BackColor = System.Drawing.Color.OrangeRed;
+                            }
 
                             mainForm.listView_PacketActivity.BeginUpdate();
                             mainForm.listView_PacketActivity.Items.Add(newItem);
@@ -224,17 +229,34 @@ namespace Packet_Helper
         private static bool detectSensitiveData(byte[] payload)
         {
             var payloadASCII = Encoding.ASCII.GetString(payload);
+            var tempDetectedDataList = new List<string>();
+            var detectedDataResult = string.Empty;
 
-            foreach (var sensitiveData in mainForm.sensitiveDataList)
+            foreach (var sData in mainForm.sensitiveDataList)
             {
+                var sensitiveData = sData;
+                sensitiveData = mainForm.removeHideSignal(sensitiveData);
+
                 if (payloadASCII.Contains(sensitiveData))
-                {
-                    MessageBox.Show("Sending sensitive data detected!\nContent: " + sensitiveData);
-                    return true;
-                }
+                    tempDetectedDataList.Add(sensitiveData);
             }
 
-            return false;
+            if (tempDetectedDataList.Count > 0)
+            {
+                for (int i = 0; i < tempDetectedDataList.Count; i++)
+                {
+                    var data = tempDetectedDataList[i];
+                    //data = mainForm.removeHideSignal(data);
+
+                    detectedDataResult += data;
+                    if (i + 1 < tempDetectedDataList.Count)
+                        detectedDataResult += ", ";
+                }
+                MessageBox.Show("Sending sensitive data detected!\nContent: " + detectedDataResult);
+                return true;
+            }
+            else
+                return false;
         }
     }
 }

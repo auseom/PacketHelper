@@ -21,6 +21,8 @@ namespace Packet_Helper
         public static List<ICaptureDevice> deviceList;
         public List<string> sensitiveDataList;
 
+        public string hideSignal = ", HiDe";
+
 
         public MainForm()
         {
@@ -55,7 +57,10 @@ namespace Packet_Helper
         /* Event about tray icon */
         private void notifyIcon_DoubleClick(object sender, EventArgs e)
         {
-
+            this.Visible = true;
+            if (this.WindowState == FormWindowState.Minimized)
+                this.WindowState = FormWindowState.Normal;
+            this.Activate();
         }
 
         /* Tray Tool Strip Menu Items */
@@ -119,16 +124,34 @@ namespace Packet_Helper
         private void button_registerSData_Click(object sender, EventArgs e)
         {
             var curListCount = sensitiveDataList.Count;
+            
+            var asteriskString = string.Empty;
+            var asteriskCount = 0;
 
             registerSensitiveData registerSDataForm = new registerSensitiveData(this);
             registerSDataForm.ShowDialog();
 
             for (int i = curListCount; i < sensitiveDataList.Count; i++)
             {
-                /* If sensitiveDataList[i] has a string ", HiDe", It will be added by "*" to the list */
-                //var sensitiveDataContent = 
                 ListViewItem newItem = new ListViewItem(count.ToString());
-                newItem.SubItems.Add(sensitiveDataList[i]);
+                var sensitiveDataContent = sensitiveDataList[i];
+                if (containsHideSignal(sensitiveDataContent))
+                {
+                    sensitiveDataContent = removeHideSignal(sensitiveDataContent);
+                    asteriskCount = sensitiveDataContent.Length;
+                }
+
+                if (asteriskCount == 0)
+                    newItem.SubItems.Add(sensitiveDataList[i]);
+                else
+                {
+                    for (int j = 0; j < asteriskCount; j++)
+                        asteriskString += '*';
+                    newItem.SubItems.Add(asteriskString);
+
+                    asteriskString = string.Empty;
+                    asteriskCount = 0;
+                }
 
                 listView_sensitiveData.Items.Add(newItem);
                 count++;
@@ -188,6 +211,33 @@ namespace Packet_Helper
             notifyIcon.Visible = false;
             Application.ExitThread();
             Environment.Exit(0);
+        }
+
+        public string removeHideSignal(string originalString)
+        {
+            string[] separatorArr = { hideSignal };
+
+            if (originalString.Contains(hideSignal))
+            {
+                var index = originalString.IndexOf(',');
+                if (originalString[index + 1].Equals(' '))
+                {
+                    var tempStringArr = originalString.Split(separatorArr, StringSplitOptions.None);
+                    var removedHideSignalString = tempStringArr[0];
+
+                    return removedHideSignalString;
+                }
+            }
+
+            return originalString;
+        }
+
+        public bool containsHideSignal(string originalString)
+        {
+            if (originalString.Contains(hideSignal))
+                return true;
+            else
+                return false;
         }
     }
 }

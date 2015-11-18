@@ -25,11 +25,15 @@ namespace Packet_Helper
 
             ListViewItem tempItem = new ListViewItem(count.ToString());
             tempItem.SubItems.Add(tempSensitiveData);
-            listView_tempSensitiveData.Items.Add(tempItem);
-            count++;
 
             if (checkBox_hide.Checked)
-                tempSensitiveData += ", HiDe!!";
+            {
+                tempItem.SubItems.Add("v");
+                tempSensitiveData += mainForm.hideSignal;
+            }
+
+            listView_tempSensitiveData.Items.Add(tempItem);
+            count++;
 
             tempSensitiveDataList.Add(tempSensitiveData);
             textBox_sensitiveData.Text = string.Empty;
@@ -50,6 +54,7 @@ namespace Packet_Helper
             for (int i = 0; i < tempSensitiveDataList.Count; i++)
             {
                 var data = tempSensitiveDataList[i];
+                data = mainForm.removeHideSignal(data);
 
                 registerDataResult += data;
                 if (i + 1 < tempSensitiveDataList.Count)
