@@ -63,6 +63,7 @@
             this.columnHeader_sDataList_name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label_sensitiveDataList = new System.Windows.Forms.Label();
             this.button_registerSData = new System.Windows.Forms.Button();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip_tray.SuspendLayout();
             this.SuspendLayout();
@@ -153,6 +154,7 @@
             this.toolStripMenuItem_Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem_Open,
             this.toolStripMenuItem_Save,
+            this.toolStripSeparator2,
             this.toolStripMenuItem_Close});
             this.toolStripMenuItem_Menu.Name = "toolStripMenuItem_Menu";
             this.toolStripMenuItem_Menu.Size = new System.Drawing.Size(50, 20);
@@ -301,6 +303,7 @@
             this.listView_sensitiveData.UseCompatibleStateImageBehavior = false;
             this.listView_sensitiveData.View = System.Windows.Forms.View.Details;
             this.listView_sensitiveData.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listView_sensitiveData_ColumnWidthChanging);
+            this.listView_sensitiveData.SelectedIndexChanged += new System.EventHandler(this.listView_sensitiveData_SelectedIndexChanged);
             // 
             // columnHeader_sDataList_No
             // 
@@ -331,6 +334,11 @@
             this.button_registerSData.Text = "Register";
             this.button_registerSData.UseVisualStyleBackColor = true;
             this.button_registerSData.Click += new System.EventHandler(this.button_registerSData_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(152, 6);
             // 
             // MainForm
             // 
@@ -395,6 +403,7 @@
         public System.Windows.Forms.ListView listView_sensitiveData;
         private System.Windows.Forms.ColumnHeader columnHeader_sDataList_No;
         private System.Windows.Forms.ColumnHeader columnHeader_sDataList_name;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
 

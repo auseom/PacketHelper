@@ -61,7 +61,19 @@ namespace Packet_Helper
         {
             try
             {
-                mainForm.sensitiveDataList.AddRange(tempSensitiveDataList);
+                foreach (var data in tempSensitiveDataList)
+                {
+                    if (data.Contains(mainForm.hideSignal))
+                    {
+                        mainForm.sensitiveDataList.Add(data);
+                        mainForm.sensitiveDataListWithoutHide.Add(mainForm.removeHideSignal(data));
+                    }
+                    else
+                    {
+                        mainForm.sensitiveDataList.Add(data);
+                        mainForm.sensitiveDataListWithoutHide.Add(data);
+                    }
+                }
             }
             catch (Exception _e)
             {

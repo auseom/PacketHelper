@@ -21,6 +21,7 @@ namespace Packet_Helper
 
         public static List<ICaptureDevice> deviceList;
         public List<string> sensitiveDataList;
+        public List<string> sensitiveDataListWithoutHide;
 
         public string hideSignal = ", HiDe";
 
@@ -35,6 +36,7 @@ namespace Packet_Helper
             listDevicesToComboBox();
             capturePacket = new CapturePacket(this);
             sensitiveDataList = new List<string>();
+            sensitiveDataListWithoutHide = new List<string>();
             toolStripMenuItem_tray_activate.Enabled = false;
             count = 1;
         }
@@ -165,10 +167,22 @@ namespace Packet_Helper
 
         private void button_deleteSData_Click(object sender, EventArgs e)
         {
+            var selectedItemList = new List<string>();
+            int removeDataIndex;
 
+            for (int i = 0; i < listView_sensitiveData.SelectedItems.Count; i++)
+            {
+                selectedItemList.Add(listView_sensitiveData.SelectedItems[i].Text);
+
+                removeDataIndex = sensitiveDataListWithoutHide.IndexOf(selectedItemList[i]);
+                sensitiveDataListWithoutHide.Remove(selectedItemList[i]);
+                sensitiveDataList.RemoveAt(removeDataIndex);
+
+                /* working */
+            }
         }
 
-        /* etc */
+        /* ListView Events */
         private void listView_PacketActivity_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
             e.NewWidth = listView_PacketActivity.Columns[e.ColumnIndex].Width;
@@ -179,6 +193,11 @@ namespace Packet_Helper
         {
             e.NewWidth = listView_PacketActivity.Columns[e.ColumnIndex].Width;
             e.Cancel = true;
+        }
+
+        private void listView_sensitiveData_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
         /* User Define Methods */
