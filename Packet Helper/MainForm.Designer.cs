@@ -79,12 +79,16 @@
             this.columnHeader_DestPort,
             this.columnHeader_Length,
             this.columnHeader_Info});
+            this.listView_PacketActivity.FullRowSelect = true;
+            this.listView_PacketActivity.GridLines = true;
             this.listView_PacketActivity.Location = new System.Drawing.Point(198, 51);
+            this.listView_PacketActivity.MultiSelect = false;
             this.listView_PacketActivity.Name = "listView_PacketActivity";
             this.listView_PacketActivity.Size = new System.Drawing.Size(774, 498);
             this.listView_PacketActivity.TabIndex = 0;
             this.listView_PacketActivity.UseCompatibleStateImageBehavior = false;
             this.listView_PacketActivity.View = System.Windows.Forms.View.Details;
+            this.listView_PacketActivity.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listView_PacketActivity_ColumnWidthChanging);
             // 
             // columnHeader_No
             // 
@@ -288,12 +292,15 @@
             this.listView_sensitiveData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader_sDataList_No,
             this.columnHeader_sDataList_name});
+            this.listView_sensitiveData.FullRowSelect = true;
+            this.listView_sensitiveData.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView_sensitiveData.Location = new System.Drawing.Point(10, 265);
             this.listView_sensitiveData.Name = "listView_sensitiveData";
             this.listView_sensitiveData.Size = new System.Drawing.Size(180, 255);
             this.listView_sensitiveData.TabIndex = 10;
             this.listView_sensitiveData.UseCompatibleStateImageBehavior = false;
             this.listView_sensitiveData.View = System.Windows.Forms.View.Details;
+            this.listView_sensitiveData.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listView_sensitiveData_ColumnWidthChanging);
             // 
             // columnHeader_sDataList_No
             // 

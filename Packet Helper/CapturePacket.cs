@@ -173,10 +173,6 @@ namespace Packet_Helper
             device.StopCapture();
         }
 
-        /* Detecting sensitive data 
-         * I'm working on it... Not finished
-         **/
-
         /* Not used for now */
         private static void showHexDump(byte[] payload, int packetLength)
         {

@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Threading;
 using SharpPcap;
 
 namespace Packet_Helper
@@ -129,38 +130,55 @@ namespace Packet_Helper
             var asteriskCount = 0;
 
             registerSensitiveData registerSDataForm = new registerSensitiveData(this);
-            registerSDataForm.ShowDialog();
-
-            for (int i = curListCount; i < sensitiveDataList.Count; i++)
+            var registerSDataFormThread = new Thread(delegate ()
             {
-                ListViewItem newItem = new ListViewItem(count.ToString());
-                var sensitiveDataContent = sensitiveDataList[i];
-                if (containsHideSignal(sensitiveDataContent))
+                registerSDataForm.ShowDialog();
+
+                for (int i = curListCount; i < sensitiveDataList.Count; i++)
                 {
-                    sensitiveDataContent = removeHideSignal(sensitiveDataContent);
-                    asteriskCount = sensitiveDataContent.Length;
+                    ListViewItem newItem = new ListViewItem(count.ToString());
+                    var sensitiveDataContent = sensitiveDataList[i];
+                    if (containsHideSignal(sensitiveDataContent))
+                    {
+                        sensitiveDataContent = removeHideSignal(sensitiveDataContent);
+                        asteriskCount = sensitiveDataContent.Length;
+                    }
+
+                    if (asteriskCount == 0)
+                        newItem.SubItems.Add(sensitiveDataList[i]);
+                    else
+                    {
+                        for (int j = 0; j < asteriskCount; j++)
+                            asteriskString += '*';
+                        newItem.SubItems.Add(asteriskString);
+
+                        asteriskString = string.Empty;
+                        asteriskCount = 0;
+                    }
+
+                    listView_sensitiveData.Items.Add(newItem);
+                    count++;
                 }
-
-                if (asteriskCount == 0)
-                    newItem.SubItems.Add(sensitiveDataList[i]);
-                else
-                {
-                    for (int j = 0; j < asteriskCount; j++)
-                        asteriskString += '*';
-                    newItem.SubItems.Add(asteriskString);
-
-                    asteriskString = string.Empty;
-                    asteriskCount = 0;
-                }
-
-                listView_sensitiveData.Items.Add(newItem);
-                count++;
-            }
+            });
+            registerSDataFormThread.Start();
         }
 
         private void button_deleteSData_Click(object sender, EventArgs e)
         {
 
+        }
+
+        /* etc */
+        private void listView_PacketActivity_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            e.NewWidth = listView_PacketActivity.Columns[e.ColumnIndex].Width;
+            e.Cancel = true;
+        }
+
+        private void listView_sensitiveData_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            e.NewWidth = listView_PacketActivity.Columns[e.ColumnIndex].Width;
+            e.Cancel = true;
         }
 
         /* User Define Methods */

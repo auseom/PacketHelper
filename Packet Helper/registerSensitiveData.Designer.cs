@@ -36,8 +36,8 @@
             this.listView_tempSensitiveData = new System.Windows.Forms.ListView();
             this.columnHeader_temp_No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_temp_name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label1 = new System.Windows.Forms.Label();
             this.columnHeader_temp_checkHide = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button_add
@@ -83,6 +83,7 @@
             this.columnHeader_temp_No,
             this.columnHeader_temp_name,
             this.columnHeader_temp_checkHide});
+            this.listView_tempSensitiveData.FullRowSelect = true;
             this.listView_tempSensitiveData.Location = new System.Drawing.Point(12, 73);
             this.listView_tempSensitiveData.Name = "listView_tempSensitiveData";
             this.listView_tempSensitiveData.Size = new System.Drawing.Size(260, 120);
@@ -100,6 +101,11 @@
             this.columnHeader_temp_name.Text = "Content";
             this.columnHeader_temp_name.Width = 195;
             // 
+            // columnHeader_temp_checkHide
+            // 
+            this.columnHeader_temp_checkHide.Text = "Hide";
+            this.columnHeader_temp_checkHide.Width = 40;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -108,11 +114,6 @@
             this.label1.Size = new System.Drawing.Size(143, 12);
             this.label1.TabIndex = 5;
             this.label1.Text = "Input your sensitive data";
-            // 
-            // columnHeader_temp_checkHide
-            // 
-            this.columnHeader_temp_checkHide.Text = "Hide";
-            this.columnHeader_temp_checkHide.Width = 40;
             // 
             // registerSensitiveData
             // 
@@ -128,6 +129,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "registerSensitiveData";
             this.Text = "Register Data";
+            this.Load += new System.EventHandler(this.registerSensitiveData_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

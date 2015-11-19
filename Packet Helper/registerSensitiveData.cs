@@ -15,12 +15,19 @@ namespace Packet_Helper
             InitializeComponent();
 
             mainForm = main;
+        }
+
+        private void registerSensitiveData_Load(object sender, EventArgs e)
+        {
             tempSensitiveDataList = new List<string>();
             count = 1;
         }
 
         private void button_add_Click(object sender, EventArgs e)
         {
+            if (textBox_sensitiveData.Text == string.Empty)
+                return;
+
             var tempSensitiveData = textBox_sensitiveData.Text;
 
             ListViewItem tempItem = new ListViewItem(count.ToString());
@@ -40,6 +47,17 @@ namespace Packet_Helper
         }
 
         private void button_closeAndRegister_Click(object sender, EventArgs e)
+        {
+            if (tempSensitiveDataList.Count == 0)
+                this.Close();
+            else
+            {
+                registerRoutine();
+                this.Close();
+            }
+        }
+
+        private void registerRoutine()
         {
             try
             {
@@ -62,8 +80,6 @@ namespace Packet_Helper
             }
 
             MessageBox.Show("Add to Sensitive Data List\n" + registerDataResult);
-
-            this.Close();
         }
     }
 }
