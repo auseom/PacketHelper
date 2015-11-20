@@ -44,6 +44,7 @@ namespace Packet_Helper
             if (reg == null || reg.ValueCount == 0)
             {
                 MessageBox.Show("Install WinPcap First!");
+                System.Diagnostics.Process.Start("explorer", "http://www.winpcap.org/install/default.htm");
                 appExit();
             }
 
