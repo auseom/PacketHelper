@@ -1,0 +1,11 @@
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Release\Packet_Helper.About.resources
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Release\Packet_Helper.MainForm.resources
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Release\Packet_Helper.Properties.Resources.resources
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Release\Packet_Helper.registerSensitiveData.resources
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Release\Packet Helper.csproj.GenerateResource.Cache
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\bin\Release\Packet Helper.exe.config
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\bin\Release\Packet Helper.exe
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\bin\Release\Packet Helper.pdb
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Release\Packet Helper.exe
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Release\Packet Helper.pdb
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Release\Packet Helper.csprojResolveAssemblyReference.cache

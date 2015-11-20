@@ -107,6 +107,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="registerSensitiveData.resx">
       <DependentUpon>registerSensitiveData.cs</DependentUpon>
@@ -125,6 +126,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="PacketDotNet.dll" />
+    <EmbeddedResource Include="SharpPcap.dll" />
     <Content Include="waves5_128.ico" />
   </ItemGroup>
   <ItemGroup>

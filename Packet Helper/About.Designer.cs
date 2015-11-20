@@ -39,6 +39,7 @@
             this.textBox_about.Multiline = true;
             this.textBox_about.Name = "textBox_about";
             this.textBox_about.ReadOnly = true;
+            this.textBox_about.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox_about.Size = new System.Drawing.Size(260, 208);
             this.textBox_about.TabIndex = 0;
             this.textBox_about.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
