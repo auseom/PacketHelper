@@ -49,3 +49,4 @@ C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet_Hel
 C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet_Helper.Properties.Resources.resources
 C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet Helper.csproj.GenerateResource.Cache
 C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet_Helper.registerSensitiveData.resources
+C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet_Helper.About.resources

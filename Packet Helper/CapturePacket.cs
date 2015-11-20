@@ -230,11 +230,8 @@ namespace Packet_Helper
 
             foreach (var sData in mainForm.sensitiveDataList)
             {
-                var sensitiveData = sData;
-                sensitiveData = mainForm.removeHideSignal(sensitiveData);
-
-                if (payloadASCII.Contains(sensitiveData))
-                    tempDetectedDataList.Add(sensitiveData);
+                if (payloadASCII.Contains(sData))
+                    tempDetectedDataList.Add(sData);
             }
 
             if (tempDetectedDataList.Count > 0)

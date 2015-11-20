@@ -44,9 +44,9 @@
             this.toolStripMenuItem_Menu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Save = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem_Close = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Info = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem_Man = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_About = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBox_DevList = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -63,7 +63,8 @@
             this.columnHeader_sDataList_name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label_sensitiveDataList = new System.Windows.Forms.Label();
             this.button_registerSData = new System.Windows.Forms.Button();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.openFileDialog_openUserData = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog_saveUserData = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip_tray.SuspendLayout();
             this.SuspendLayout();
@@ -174,6 +175,11 @@
             this.toolStripMenuItem_Save.Text = "Save User Info";
             this.toolStripMenuItem_Save.Click += new System.EventHandler(this.toolStripMenuItem_Save_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(152, 6);
+            // 
             // toolStripMenuItem_Close
             // 
             this.toolStripMenuItem_Close.Name = "toolStripMenuItem_Close";
@@ -184,18 +190,10 @@
             // toolStripMenuItem_Info
             // 
             this.toolStripMenuItem_Info.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem_Man,
             this.toolStripMenuItem_About});
             this.toolStripMenuItem_Info.Name = "toolStripMenuItem_Info";
             this.toolStripMenuItem_Info.Size = new System.Drawing.Size(40, 20);
             this.toolStripMenuItem_Info.Text = "Info";
-            // 
-            // toolStripMenuItem_Man
-            // 
-            this.toolStripMenuItem_Man.Name = "toolStripMenuItem_Man";
-            this.toolStripMenuItem_Man.Size = new System.Drawing.Size(185, 22);
-            this.toolStripMenuItem_Man.Text = "Manual";
-            this.toolStripMenuItem_Man.Click += new System.EventHandler(this.toolStripMenuItem_Man_Click);
             // 
             // toolStripMenuItem_About
             // 
@@ -297,13 +295,13 @@
             this.listView_sensitiveData.FullRowSelect = true;
             this.listView_sensitiveData.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView_sensitiveData.Location = new System.Drawing.Point(10, 265);
+            this.listView_sensitiveData.MultiSelect = false;
             this.listView_sensitiveData.Name = "listView_sensitiveData";
             this.listView_sensitiveData.Size = new System.Drawing.Size(180, 255);
             this.listView_sensitiveData.TabIndex = 10;
             this.listView_sensitiveData.UseCompatibleStateImageBehavior = false;
             this.listView_sensitiveData.View = System.Windows.Forms.View.Details;
             this.listView_sensitiveData.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listView_sensitiveData_ColumnWidthChanging);
-            this.listView_sensitiveData.SelectedIndexChanged += new System.EventHandler(this.listView_sensitiveData_SelectedIndexChanged);
             // 
             // columnHeader_sDataList_No
             // 
@@ -335,10 +333,9 @@
             this.button_registerSData.UseVisualStyleBackColor = true;
             this.button_registerSData.Click += new System.EventHandler(this.button_registerSData_Click);
             // 
-            // toolStripSeparator2
+            // openFileDialog_openUserData
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(152, 6);
+            this.openFileDialog_openUserData.FileName = "openFileDialog1";
             // 
             // MainForm
             // 
@@ -375,7 +372,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Save;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Close;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Info;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Man;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_About;
         private System.Windows.Forms.ComboBox comboBox_DevList;
         private System.Windows.Forms.Label label1;
@@ -404,6 +400,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader_sDataList_No;
         private System.Windows.Forms.ColumnHeader columnHeader_sDataList_name;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.OpenFileDialog openFileDialog_openUserData;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog_saveUserData;
     }
 }
 

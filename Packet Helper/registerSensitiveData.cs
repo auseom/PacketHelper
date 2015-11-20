@@ -65,13 +65,13 @@ namespace Packet_Helper
                 {
                     if (data.Contains(mainForm.hideSignal))
                     {
-                        mainForm.sensitiveDataList.Add(data);
-                        mainForm.sensitiveDataListWithoutHide.Add(mainForm.removeHideSignal(data));
+                        mainForm.sensitiveDataListWithoutHide.Add(data);
+                        mainForm.sensitiveDataList.Add(mainForm.removeHideSignal(data));
                     }
                     else
                     {
-                        mainForm.sensitiveDataList.Add(data);
                         mainForm.sensitiveDataListWithoutHide.Add(data);
+                        mainForm.sensitiveDataList.Add(data);
                     }
                 }
             }

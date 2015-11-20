@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 using SharpPcap;
 
 namespace Packet_Helper
@@ -17,7 +19,6 @@ namespace Packet_Helper
     {
         private static ICaptureDevice device;
         private CapturePacket capturePacket;
-        private int count;
 
         public static List<ICaptureDevice> deviceList;
         public List<string> sensitiveDataList;
@@ -38,7 +39,11 @@ namespace Packet_Helper
             sensitiveDataList = new List<string>();
             sensitiveDataListWithoutHide = new List<string>();
             toolStripMenuItem_tray_activate.Enabled = false;
-            count = 1;
+
+            saveFileDialog_saveUserData.FileName = "";
+            saveFileDialog_saveUserData.Filter = "bin(*.bin)|*.bin";
+            openFileDialog_openUserData.FileName = "";
+            openFileDialog_openUserData.Filter = "bin(*.bin)|*.bin";
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -90,12 +95,43 @@ namespace Packet_Helper
         /* Tool Strip Menu Items */
         private void toolStripMenuItem_Open_Click(object sender, EventArgs e)
         {
+            if (openFileDialog_openUserData.ShowDialog() == DialogResult.OK)
+            {
+                sensitiveDataList.Clear();
+                sensitiveDataListWithoutHide.Clear();
 
+                var fullPath = openFileDialog_openUserData.FileName;
+
+                var fs = new FileStream(fullPath, FileMode.Open);
+                var bf = new BinaryFormatter();
+                sensitiveDataListWithoutHide = (List<string>)bf.Deserialize(fs);
+
+                fs.Close();
+
+                foreach (var data in sensitiveDataListWithoutHide)
+                {
+                    if (data.Contains(hideSignal))
+                        sensitiveDataList.Add(removeHideSignal(data));
+                    else
+                        sensitiveDataList.Add(data);
+                }
+
+                refreshToSensitiveDataListView();
+            }
         }
 
         private void toolStripMenuItem_Save_Click(object sender, EventArgs e)
         {
+            if (saveFileDialog_saveUserData.ShowDialog() == DialogResult.OK)
+            {
+                var fullPath = saveFileDialog_saveUserData.FileName;
 
+                var fs = new FileStream(fullPath, FileMode.Create);
+                var bf = new BinaryFormatter();
+                bf.Serialize(fs, sensitiveDataListWithoutHide);
+
+                fs.Close();
+            }
         }
 
         private void toolStripMenuItem_Close_Click(object sender, EventArgs e)
@@ -103,14 +139,14 @@ namespace Packet_Helper
             appExit();
         }
 
-        private void toolStripMenuItem_Man_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void toolStripMenuItem_About_Click(object sender, EventArgs e)
         {
-
+            About aboutForm = new About();
+            var aboutFormThread = new Thread(delegate ()
+            {
+                aboutForm.ShowDialog();
+            });
+            aboutFormThread.Start();
         }
 
         /* Buttons */
@@ -126,60 +162,29 @@ namespace Packet_Helper
 
         private void button_registerSData_Click(object sender, EventArgs e)
         {
-            var curListCount = sensitiveDataList.Count;
-            
-            var asteriskString = string.Empty;
-            var asteriskCount = 0;
-
             registerSensitiveData registerSDataForm = new registerSensitiveData(this);
-            var registerSDataFormThread = new Thread(delegate ()
+            var registerSDataFormThread = new Thread(delegate()
             {
                 registerSDataForm.ShowDialog();
 
-                for (int i = curListCount; i < sensitiveDataList.Count; i++)
-                {
-                    ListViewItem newItem = new ListViewItem(count.ToString());
-                    var sensitiveDataContent = sensitiveDataList[i];
-                    if (containsHideSignal(sensitiveDataContent))
-                    {
-                        sensitiveDataContent = removeHideSignal(sensitiveDataContent);
-                        asteriskCount = sensitiveDataContent.Length;
-                    }
-
-                    if (asteriskCount == 0)
-                        newItem.SubItems.Add(sensitiveDataList[i]);
-                    else
-                    {
-                        for (int j = 0; j < asteriskCount; j++)
-                            asteriskString += '*';
-                        newItem.SubItems.Add(asteriskString);
-
-                        asteriskString = string.Empty;
-                        asteriskCount = 0;
-                    }
-
-                    listView_sensitiveData.Items.Add(newItem);
-                    count++;
-                }
+                refreshToSensitiveDataListView();
             });
             registerSDataFormThread.Start();
         }
 
         private void button_deleteSData_Click(object sender, EventArgs e)
         {
-            var selectedItemList = new List<string>();
-            int removeDataIndex;
+            if (listView_sensitiveData.SelectedIndices.Count == 0)
+                return;
 
-            for (int i = 0; i < listView_sensitiveData.SelectedItems.Count; i++)
-            {
-                selectedItemList.Add(listView_sensitiveData.SelectedItems[i].Text);
+            var removeDataIndex = listView_sensitiveData.SelectedItems[0].Index;
 
-                removeDataIndex = sensitiveDataListWithoutHide.IndexOf(selectedItemList[i]);
-                sensitiveDataListWithoutHide.Remove(selectedItemList[i]);
-                sensitiveDataList.RemoveAt(removeDataIndex);
+            sensitiveDataList.RemoveAt(removeDataIndex);
+            sensitiveDataListWithoutHide.RemoveAt(removeDataIndex);
 
-                /* working */
-            }
+            listView_sensitiveData.Items.Clear();
+
+            refreshToSensitiveDataListView();
         }
 
         /* ListView Events */
@@ -193,11 +198,6 @@ namespace Packet_Helper
         {
             e.NewWidth = listView_PacketActivity.Columns[e.ColumnIndex].Width;
             e.Cancel = true;
-        }
-
-        private void listView_sensitiveData_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         /* User Define Methods */
@@ -275,6 +275,39 @@ namespace Packet_Helper
                 return true;
             else
                 return false;
+        }
+
+        public void refreshToSensitiveDataListView()
+        {
+            var curSensitiveDataListCount = sensitiveDataList.Count;
+            var asteriskString = string.Empty;
+            var asteriskCount = 0;
+
+            listView_sensitiveData.Items.Clear();
+
+            for (int i = 0; i < sensitiveDataList.Count; i++)
+            {
+                ListViewItem newItem = new ListViewItem((i + 1).ToString());
+                var sensitiveDataContent = sensitiveDataListWithoutHide[i];
+                if (containsHideSignal(sensitiveDataContent))
+                {
+                    asteriskCount = sensitiveDataList[i].Length;
+                }
+
+                if (asteriskCount == 0)
+                    newItem.SubItems.Add(sensitiveDataList[i]);
+                else
+                {
+                    for (int j = 0; j < asteriskCount; j++)
+                        asteriskString += '*';
+                    newItem.SubItems.Add(asteriskString);
+
+                    asteriskString = string.Empty;
+                    asteriskCount = 0;
+                }
+
+                listView_sensitiveData.Items.Add(newItem);
+            }
         }
     }
 }
