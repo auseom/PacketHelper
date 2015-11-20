@@ -41,7 +41,7 @@ namespace Packet_Helper
         private void MainForm_Load(object sender, EventArgs e)
         {
             var reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\WinPcapInst");
-            if (reg.ValueCount == 0)
+            if (reg == null || reg.ValueCount == 0)
             {
                 MessageBox.Show("Install WinPcap First!");
                 appExit();
