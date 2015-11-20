@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Packet_Helper
@@ -20,11 +13,14 @@ namespace Packet_Helper
         private void About_Load(object sender, EventArgs e)
         {
             textBox_about.Text = @"
+The Packet Helper is capturing the packet which has user registered sensitive data.
+If the outgoing packet has the data with plain text in payload of the packet, The Packet Helper will alert you of it with simple MessageBox.
+So you could know what data will be outgoing and you probably checking your system for prevention of leakage of the data.
+
+
 This Program is made by DeokGyu Yang for Computer Networking Project
 
-
-Members
-
+-- Members --
 DeokGyu Yang
 ...
 

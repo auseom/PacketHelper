@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
-using SharpPcap;
 using System.Text;
+using SharpPcap;
 
 namespace Packet_Helper
 {
@@ -22,7 +22,7 @@ namespace Packet_Helper
 
         private static string detectedDataResult = string.Empty;
         public static int count = 1;
-        
+
 
         public CapturePacket(MainForm main)
         {
@@ -253,4 +253,3 @@ namespace Packet_Helper
         }
     }
 }
- 
