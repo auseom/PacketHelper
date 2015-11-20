@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.textBox_about = new System.Windows.Forms.TextBox();
             this.button_close = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -59,6 +60,9 @@
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.button_close);
             this.Controls.Add(this.textBox_about);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "About";
             this.Text = "About";
             this.Load += new System.EventHandler(this.About_Load);

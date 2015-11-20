@@ -126,7 +126,9 @@
             this.Controls.Add(this.button_closeAndRegister);
             this.Controls.Add(this.textBox_sensitiveData);
             this.Controls.Add(this.button_add);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "registerSensitiveData";
             this.Text = "Register Data";
             this.Load += new System.EventHandler(this.registerSensitiveData_Load);
