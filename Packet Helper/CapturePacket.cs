@@ -225,32 +225,40 @@ namespace Packet_Helper
 
         private static bool detectSensitiveData(byte[] payload)
         {
-            var payloadASCII = Encoding.ASCII.GetString(payload);
-            var tempDetectedDataList = new List<string>();
-            var detectedDataResult = string.Empty;
+            try {
+                var payloadASCII = Encoding.ASCII.GetString(payload);
+                var tempDetectedDataList = new List<string>();
+                var detectedDataResult = string.Empty;
 
-            foreach (var sData in mainForm.sensitiveDataList)
-            {
-                if (payloadASCII.Contains(sData))
-                    tempDetectedDataList.Add(sData);
-            }
-
-            if (tempDetectedDataList.Count > 0)
-            {
-                for (int i = 0; i < tempDetectedDataList.Count; i++)
+                foreach (var sData in mainForm.sensitiveDataList)
                 {
-                    var data = tempDetectedDataList[i];
-                    //data = mainForm.removeHideSignal(data);
-
-                    detectedDataResult += data;
-                    if (i + 1 < tempDetectedDataList.Count)
-                        detectedDataResult += ", ";
+                    if (payloadASCII.Contains(sData))
+                        tempDetectedDataList.Add(sData);
                 }
-                MessageBox.Show("Sending sensitive data detected!\nContent: " + detectedDataResult);
-                return true;
+
+                if (tempDetectedDataList.Count > 0)
+                {
+                    for (int i = 0; i < tempDetectedDataList.Count; i++)
+                    {
+                        var data = tempDetectedDataList[i];
+                        //data = mainForm.removeHideSignal(data);
+
+                        detectedDataResult += data;
+                        if (i + 1 < tempDetectedDataList.Count)
+                            detectedDataResult += ", ";
+                    }
+                    new Thread(new ThreadStart(new Action(() => { MessageBox.Show("Sending sensitive data detected!\nContent: " + detectedDataResult); }))).Start();
+
+                    return true;
+                }
+                else
+                    return false;
             }
-            else
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message);
                 return false;
+            }
         }
     }
 }

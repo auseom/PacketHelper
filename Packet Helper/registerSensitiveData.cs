@@ -49,10 +49,14 @@ namespace Packet_Helper
         private void button_closeAndRegister_Click(object sender, EventArgs e)
         {
             if (tempSensitiveDataList.Count == 0)
+            {
+                this.DialogResult = DialogResult.Cancel;
                 this.Close();
+            }
             else
             {
                 registerRoutine();
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
         }

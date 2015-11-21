@@ -77,18 +77,6 @@ namespace Packet_Helper
             openFileDialog_openUserData.Filter = "dat(*.dat)|*.dat";
 
             initLV_sensitiveDataToolTip();
-
-            var timerWrapperThread = new Thread(delegate ()
-            {
-                System.Threading.Timer timer = new System.Threading.Timer(new TimerCallback(updateLVPacketActivity), null, 0, 1500);
-                while (true)
-                {
-                    if (timer == null)
-                        timer = new System.Threading.Timer(new TimerCallback(updateLVPacketActivity), null, 0, 1500);
-                }
-
-            });
-            timerWrapperThread.Start();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -105,6 +93,23 @@ namespace Packet_Helper
             toolStripMenuItem_tray_activate.Enabled = true;
             notifyIcon.Text = "Packet Helper: Activated";
             toolStripMenuItem_tray_activate.Text = "Stop";
+
+            new Thread(new ThreadStart(delegate ()
+            {
+                System.Threading.Timer timer = new System.Threading.Timer(timerCallback);
+                while (true)
+                {
+                    Thread.Sleep(500);
+                    if (LVItemQueue.Count > 0 && LVItemQueue.Count <= 150)
+                        timer.Change(0, 500);
+                    else if (LVItemQueue.Count > 150 && LVItemQueue.Count <= 500)
+                        timer.Change(0, 1500);
+                    else if (LVItemQueue.Count > 500 && LVItemQueue.Count <= 1000)
+                        timer.Change(0, 3000);
+                    else if (LVItemQueue.Count > 1000)
+                        timer.Change(0, 5000);
+                }
+            })).Start();
         }
 
         /* Event about tray icon */
@@ -182,12 +187,8 @@ namespace Packet_Helper
 
         private void toolStripMenuItem_About_Click(object sender, EventArgs e)
         {
-            About aboutForm = new About();
-            var aboutFormThread = new Thread(delegate ()
-            {
-                aboutForm.ShowDialog();
-            });
-            aboutFormThread.Start();
+            var aboutForm = new About();
+            aboutForm.Show();
         }
 
         /* Buttons */
@@ -203,14 +204,18 @@ namespace Packet_Helper
 
         private void button_registerSData_Click(object sender, EventArgs e)
         {
-            registerSensitiveData registerSDataForm = new registerSensitiveData(this);
-            var registerSDataFormThread = new Thread(delegate ()
-            {
-                registerSDataForm.ShowDialog();
+            var registerSDataForm = new registerSensitiveData(this);
 
-                refreshSensitiveDataListView();
-            });
-            registerSDataFormThread.Start();
+            if (registerSDataForm.ShowDialog() == DialogResult.OK)
+            {
+                new Thread(delegate ()
+                {
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        refreshSensitiveDataListView();
+                    }));
+                }).Start();
+            }
         }
 
         private void button_deleteSData_Click(object sender, EventArgs e)
@@ -417,25 +422,38 @@ namespace Packet_Helper
             }
         }
 
-        public void updateLVPacketActivity(Object state)
+        private void timerCallback(object status)
         {
-            Monitor.Enter(LVItemQueue);
-            var itemCount = LVItemQueue.Count;
-            if (itemCount == 0)
-                Monitor.Wait(LVItemQueue);
-            while (true)
+            try
             {
-                if (--itemCount < 1)
-                    break;
+                Invoke(new MethodInvoker(
+                 delegate ()
+                 {
+                     Monitor.Enter(LVItemQueue);
+                     var itemCount = LVItemQueue.Count;
 
-                var item = LVItemQueue.Dequeue();
+                     if (itemCount == 0)
+                         Monitor.Wait(LVItemQueue);
 
-                listView_PacketActivity.BeginUpdate();
-                listView_PacketActivity.Items.Add(item);
-                listView_PacketActivity.EndUpdate();
+                     while (true)
+                     {
+                         if (--itemCount < 1)
+                             break;
+
+                         var item = LVItemQueue.Dequeue();
+
+                         listView_PacketActivity.BeginUpdate();
+                         listView_PacketActivity.Items.Add(item);
+                         listView_PacketActivity.EndUpdate();
+                     }
+                     Monitor.Pulse(LVItemQueue);
+                     Monitor.Exit(LVItemQueue);
+                 }));
             }
-            Monitor.Pulse(LVItemQueue);
-            Monitor.Exit(LVItemQueue);
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message);
+            }
         }
 
         /* Show tooltip 2 seconds for hided item in sensitive data ListView */
