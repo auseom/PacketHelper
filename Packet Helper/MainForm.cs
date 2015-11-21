@@ -80,10 +80,13 @@ namespace Packet_Helper
 
             var timerWrapperThread = new Thread(delegate ()
             {
+                System.Threading.Timer timer = new System.Threading.Timer(new TimerCallback(updateLVPacketActivity), null, 0, 1500);
                 while (true)
                 {
-                    System.Threading.Timer timer = new System.Threading.Timer(new TimerCallback(updateLVPacketActivity), null, 0, 1500);
+                    if (timer == null)
+                        timer = new System.Threading.Timer(new TimerCallback(updateLVPacketActivity), null, 0, 1500);
                 }
+
             });
             timerWrapperThread.Start();
         }
