@@ -94,6 +94,7 @@ namespace Packet_Helper
             notifyIcon.Text = "Packet Helper: Activated";
             toolStripMenuItem_tray_activate.Text = "Stop";
 
+            /* Must be modified!! */
             new Thread(new ThreadStart(delegate ()
             {
                 System.Threading.Timer timer = new System.Threading.Timer(timerCallback);
