@@ -1,10 +1,10 @@
 ﻿/* Packet Helper
- * 사용자의 민감한 정보를 미리 프로그램에 등록시켜놓은 뒤,
- * 전달하는 패킷에 해당 민감한 정보가 있을 시 사용자에게 알림
- * 패킷 캡쳐 라이브러리: http://www.codeproject.com/Articles/12458/SharpPcap-A-Packet-Capture-Framework-for-NET
- * icon 이미지 출처: http://www.flaticon.com/free-icon/antenna_71311
- * DLL 생성 관련 참고 자료 1: http://liesm.tistory.com/entry/C-Exe-%ED%8C%8C%EC%9D%BC%EC%97%90-DllOcx-%ED%8C%8C%EC%9D%BC-%ED%8F%AC%ED%95%A8%ED%95%98%EC%97%AC-%EC%BB%B4%ED%8C%8C%EC%9D%BC%ED%95%98%EA%B8%B0
- * DLL 생성 관련 참고 자료 2: http://devilchen.tistory.com/4720
+ * Register the sensitive data of user in the program,
+ * notify user if the outgoing packet has the data user registered before.
+ * Packet capture library: http://www.codeproject.com/Articles/12458/SharpPcap-A-Packet-Capture-Framework-for-NET
+ * Icon image source: http://www.flaticon.com/free-icon/antenna_71311
+ * Reference about create essential DLL file 1: http://liesm.tistory.com/entry/C-Exe-%ED%8C%8C%EC%9D%BC%EC%97%90-DllOcx-%ED%8C%8C%EC%9D%BC-%ED%8F%AC%ED%95%A8%ED%95%98%EC%97%AC-%EC%BB%B4%ED%8C%8C%EC%9D%BC%ED%95%98%EA%B8%B0
+ * Reference about create essential DLL file 2: http://devilchen.tistory.com/4720
  **/
 
 using System;
@@ -32,7 +32,6 @@ namespace Packet_Helper
 
         public string hideSignal = ", HiDe";
 
-
         public MainForm()
         {
             InitializeComponent();
@@ -43,7 +42,7 @@ namespace Packet_Helper
             var reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\WinPcapInst");
             if (reg == null || reg.ValueCount == 0)
             {
-                MessageBox.Show("Install WinPcap First!");
+                MessageBox.Show("Install WinPcap First!\nWinPcap download site will be opened!");
                 System.Diagnostics.Process.Start("explorer", "http://www.winpcap.org/install/default.htm");
                 appExit();
             }
@@ -76,6 +75,7 @@ namespace Packet_Helper
             openFileDialog_openUserData.FileName = "";
             openFileDialog_openUserData.Filter = "dat(*.dat)|*.dat";
 
+            initLV_sensitiveDataToolTip();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -110,13 +110,9 @@ namespace Packet_Helper
                 return;
 
             if (toolStripMenuItem_tray_activate.Text == "Resume")
-            {
                 resumeCaptureRoutine();
-            }
             else if (toolStripMenuItem_tray_activate.Text == "Stop")
-            {
                 stopCaptureRoutine();
-            }
         }
 
         private void toolStripMenuItem_tray_exit_Click(object sender, EventArgs e)
@@ -385,12 +381,11 @@ namespace Packet_Helper
 
             for (int i = 0; i < sensitiveDataList.Count; i++)
             {
-                ListViewItem newItem = new ListViewItem((i + 1).ToString());
+                var newItem = new ListViewItem((i + 1).ToString());
                 var sensitiveDataContent = sensitiveDataListWithoutHide[i];
+
                 if (containsHideSignal(sensitiveDataContent))
-                {
                     asteriskCount = sensitiveDataList[i].Length;
-                }
 
                 if (asteriskCount == 0)
                     newItem.SubItems.Add(sensitiveDataList[i]);
@@ -399,6 +394,7 @@ namespace Packet_Helper
                     for (int j = 0; j < asteriskCount; j++)
                         asteriskString += '*';
                     newItem.SubItems.Add(asteriskString);
+                    newItem.SubItems[1].Tag = removeHideSignal(sensitiveDataContent);
 
                     asteriskString = string.Empty;
                     asteriskCount = 0;
@@ -406,6 +402,30 @@ namespace Packet_Helper
 
                 listView_sensitiveData.Items.Add(newItem);
             }
+        }
+
+        /* Show tooltip 2 seconds for hided item in sensitive data ListView */
+        private ToolTip subItemToolTip = new ToolTip();
+        private ListViewItem pointedItem;
+        private ListViewHitTestInfo pointedItemInfo;
+
+        private void initLV_sensitiveDataToolTip()
+        {
+            subItemToolTip.UseAnimation = true;
+            subItemToolTip.UseFading = true;
+            subItemToolTip.InitialDelay = 1000;
+        }
+
+        private void listView_sensitiveData_MouseMove(object sender, MouseEventArgs e)
+        {
+            pointedItem = listView_sensitiveData.GetItemAt(e.X, e.Y);
+            pointedItemInfo = listView_sensitiveData.HitTest(e.X, e.Y);
+        }
+
+        private void listView_sensitiveData_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
+        {
+            if ((pointedItem != null) && (pointedItemInfo.SubItem != null) && (pointedItemInfo.SubItem.Tag != null))
+                subItemToolTip.Show(pointedItemInfo.SubItem.Tag.ToString(), (IWin32Window)sender, pointedItemInfo.SubItem.Bounds.Location, 2000);
         }
     }
 }

@@ -174,53 +174,53 @@ namespace Packet_Helper
         }
 
         /* Not used for now */
-        private static void showHexDump(byte[] payload, int packetLength)
-        {
-            char ch;
-            string outputHexDump = "Data Payload \n";
-            string outputASCII = "ASCII \n";
+        //private static void showHexDump(byte[] payload, int packetLength)
+        //{
+        //    char ch;
+        //    string outputHexDump = "Data Payload \n";
+        //    string outputASCII = "ASCII \n";
 
-            var payloadHexDump = BitConverter.ToString(payload).Replace("-", string.Empty);
-            var payloadASCII = Encoding.ASCII.GetString(payload);
+        //    var payloadHexDump = BitConverter.ToString(payload).Replace("-", string.Empty);
+        //    var payloadASCII = Encoding.ASCII.GetString(payload);
 
-            var payloadHexDumpArr = payloadHexDump.ToCharArray();
-            var payloadASCIIArr = payloadASCII.ToCharArray();
+        //    var payloadHexDumpArr = payloadHexDump.ToCharArray();
+        //    var payloadASCIIArr = payloadASCII.ToCharArray();
 
-            var charNumIndex = 0;
+        //    var charNumIndex = 0;
 
-            for (int i = 0; i < packetLength; i++)
-            {
-                ch = payloadHexDumpArr[i];
+        //    for (int i = 0; i < packetLength; i++)
+        //    {
+        //        ch = payloadHexDumpArr[i];
 
-                outputHexDump += ch;
-                charNumIndex++;
+        //        outputHexDump += ch;
+        //        charNumIndex++;
 
-                if (charNumIndex % 2 == 0)
-                    outputHexDump += " ";
+        //        if (charNumIndex % 2 == 0)
+        //            outputHexDump += " ";
 
-                if (charNumIndex % 30 == 0)
-                    outputHexDump += " \n";
-            }
+        //        if (charNumIndex % 30 == 0)
+        //            outputHexDump += " \n";
+        //    }
 
-            for (int i = 0; i < packetLength; i++)
-            {
-                ch = payloadASCIIArr[i];
+        //    for (int i = 0; i < packetLength; i++)
+        //    {
+        //        ch = payloadASCIIArr[i];
 
-                /* Is it work? */
-                ch = (ch >= 32 && ch <= 128) ? ch : '.';
+        //        /* Is it work? */
+        //        ch = (ch >= 32 && ch <= 128) ? ch : '.';
 
-                outputASCII += ch;
-                charNumIndex++;
+        //        outputASCII += ch;
+        //        charNumIndex++;
 
-                if (charNumIndex % 2 == 0)
-                    outputASCII += " ";
+        //        if (charNumIndex % 2 == 0)
+        //            outputASCII += " ";
 
-                if (charNumIndex % 30 == 0)
-                    outputASCII += " \n";
-            }
+        //        if (charNumIndex % 30 == 0)
+        //            outputASCII += " \n";
+        //    }
 
-            //mainForm.textBox_showPayload.Text = outputHexDump + "\n\n" + outputASCII;
-        }
+        //    mainForm.textBox_showPayload.Text = outputHexDump + "\n\n" + outputASCII;
+        //}
 
         private static bool detectSensitiveData(byte[] payload)
         {

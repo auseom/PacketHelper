@@ -293,7 +293,6 @@
             this.columnHeader_sDataList_No,
             this.columnHeader_sDataList_name});
             this.listView_sensitiveData.FullRowSelect = true;
-            this.listView_sensitiveData.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView_sensitiveData.Location = new System.Drawing.Point(10, 265);
             this.listView_sensitiveData.MultiSelect = false;
             this.listView_sensitiveData.Name = "listView_sensitiveData";
@@ -302,6 +301,8 @@
             this.listView_sensitiveData.UseCompatibleStateImageBehavior = false;
             this.listView_sensitiveData.View = System.Windows.Forms.View.Details;
             this.listView_sensitiveData.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listView_sensitiveData_ColumnWidthChanging);
+            this.listView_sensitiveData.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.listView_sensitiveData_ItemMouseHover);
+            this.listView_sensitiveData.MouseMove += new System.Windows.Forms.MouseEventHandler(this.listView_sensitiveData_MouseMove);
             // 
             // columnHeader_sDataList_No
             // 
