@@ -22,10 +22,31 @@ This Program is made by DeokGyu Yang for Computer Networking Project
 
 -- Members --
 DeokGyu Yang
-...
+JunHee Lee
+JeongHyeon Sim
+JiSu Oh
+GyuBeom Kim
 
 2015. 11. 20
 ";
+
+            label_visitGibhub.Text = "Click here : Packet Helper GitHub";
+        }
+
+        private void label_visitGibhub_MouseClick(object sender, MouseEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/auseom/PacketHelper/");
+        }
+
+        private void label_visitGibhub_MouseHover(object sender, EventArgs e)
+        {
+            label_visitGibhub.ForeColor = System.Drawing.Color.Cyan;
+            label_visitGibhub.Cursor = Cursors.Hand;
+        }
+
+        private void label_visitGibhub_MouseLeave(object sender, EventArgs e)
+        {
+            label_visitGibhub.ForeColor = System.Drawing.Color.Black;
         }
 
         private void button_close_Click(object sender, EventArgs e)
