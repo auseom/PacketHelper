@@ -29,6 +29,7 @@ namespace Packet_Helper
         public static List<ICaptureDevice> deviceList;
         public List<string> sensitiveDataList;
         public List<string> sensitiveDataListWithoutHide;
+        public static Queue<ListViewItem> LVItemQueue = new Queue<ListViewItem>();
 
         public string hideSignal = ", HiDe";
 
@@ -76,6 +77,15 @@ namespace Packet_Helper
             openFileDialog_openUserData.Filter = "dat(*.dat)|*.dat";
 
             initLV_sensitiveDataToolTip();
+
+            var timerWrapperThread = new Thread(delegate ()
+            {
+                while (true)
+                {
+                    System.Threading.Timer timer = new System.Threading.Timer(new TimerCallback(updateLVPacketActivity), null, 0, 1500);
+                }
+            });
+            timerWrapperThread.Start();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -402,6 +412,27 @@ namespace Packet_Helper
 
                 listView_sensitiveData.Items.Add(newItem);
             }
+        }
+
+        public void updateLVPacketActivity(Object state)
+        {
+            Monitor.Enter(LVItemQueue);
+            var itemCount = LVItemQueue.Count;
+            if (itemCount == 0)
+                Monitor.Wait(LVItemQueue);
+            while (true)
+            {
+                if (--itemCount < 1)
+                    break;
+
+                var item = LVItemQueue.Dequeue();
+
+                listView_PacketActivity.BeginUpdate();
+                listView_PacketActivity.Items.Add(item);
+                listView_PacketActivity.EndUpdate();
+            }
+            Monitor.Pulse(LVItemQueue);
+            Monitor.Exit(LVItemQueue);
         }
 
         /* Show tooltip 2 seconds for hided item in sensitive data ListView */

@@ -23,9 +23,6 @@ namespace Packet_Helper
         private static string detectedDataResult = string.Empty;
         public static int count = 1;
 
-        private static Queue<ListViewItem> LVItemQueue = new Queue<ListViewItem>();
-
-
         public CapturePacket(MainForm main)
         {
             mainForm = main;
@@ -43,8 +40,6 @@ namespace Packet_Helper
             device.Open(DeviceMode.Promiscuous, readTimeoutMilliseconds);
 
             device.StartCapture();
-
-            System.Threading.Timer timer = new System.Threading.Timer(new TimerCallback(updateLVPacketActivity), null, 0, 1500);
         }
 
         private static void device_OnPacketArrival(object sender, CaptureEventArgs e)
@@ -154,29 +149,18 @@ namespace Packet_Helper
                             {
                                 newItem.BackColor = System.Drawing.Color.OrangeRed;
                             }
-                            
-                            LVItemQueue.Enqueue(newItem);
+
+                            Monitor.Enter(MainForm.LVItemQueue);
+                            MainForm.LVItemQueue.Enqueue(newItem);
+
+                            if (MainForm.LVItemQueue.Count > 0)
+                                Monitor.Pulse(MainForm.LVItemQueue);
+                            Monitor.Exit(MainForm.LVItemQueue);
 
                             count++;
                         }
                     }
                 }
-            }
-        }
-
-        private void updateLVPacketActivity(Object state)
-        {
-            var itemCount = LVItemQueue.Count;
-            while (true)
-            {
-                if (--itemCount < 1)
-                    break;
-
-                var item = LVItemQueue.Dequeue();
-
-                mainForm.listView_PacketActivity.BeginUpdate();
-                mainForm.listView_PacketActivity.Items.Add(item);
-                mainForm.listView_PacketActivity.EndUpdate();
             }
         }
 
