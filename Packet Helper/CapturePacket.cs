@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
 using SharpPcap;
 
 namespace Packet_Helper
@@ -104,14 +106,11 @@ namespace Packet_Helper
                         var thisPacket = PacketDotNet.Packet.ParsePacket(packet.LinkLayerType, packet.Data);
                         var tcpPacket = (PacketDotNet.TcpPacket)thisPacket.Extract(typeof(PacketDotNet.TcpPacket));
 
-                        /* Check if it contains sensitive data */
-                        var containsSensitiveData = detectSensitiveData(packet.Data);
-
                         /* Show payload */
                         //showHexDump(packet.Data, packetLength);
 
-                        System.Net.IPAddress srcIp = System.Net.IPAddress.None;
-                        System.Net.IPAddress dstIp = System.Net.IPAddress.None;
+                        IPAddress srcIp = IPAddress.None;
+                        IPAddress dstIp = IPAddress.None;
                         int srcPort = 0;
                         int dstPort = 0;
                         PacketDotNet.IPProtocolType protocol = PacketDotNet.IPProtocolType.NONE;
@@ -145,7 +144,9 @@ namespace Packet_Helper
                             newItem.SubItems.Add(dstPort.ToString());
                             newItem.SubItems.Add(packetLength.ToString());
                             newItem.SubItems.Add("");
-                            if (containsSensitiveData)
+
+                            /* Check if it contains sensitive data */
+                            if ((srcIp.ToString() == ClientIP) && detectSensitiveData(packet.Data))
                             {
                                 newItem.BackColor = System.Drawing.Color.OrangeRed;
                             }
@@ -258,6 +259,30 @@ namespace Packet_Helper
             {
                 MessageBox.Show(_e.Message);
                 return false;
+            }
+        }
+
+        public static string ClientIP
+        {
+            get
+            {
+                IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+                var clientIP = string.Empty;
+                var eachIP = new string[4];
+
+                for (int i = 0; i < host.AddressList.Length; i++)
+                {
+                    if (host.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        /* Some systems can occur error */
+                        eachIP = host.AddressList[i].ToString().Split(new char[1] { '.' });
+                        if (Int32.Parse(eachIP[0]) == 10 || Int32.Parse(eachIP[0]) == 172 || Int32.Parse(eachIP[0]) == 192)
+                            if (Int32.Parse(eachIP[2].ToString()) > 0)
+                                continue;
+                        clientIP = host.AddressList[i].ToString();
+                    }
+                }
+                return clientIP;
             }
         }
     }

@@ -18,7 +18,7 @@ If the outgoing packet has the data with plain text in payload of the packet, Th
 So you could know what data will be outgoing and you probably checking your system for prevention of leakage of the data.
 
 
-This Program is made by DeokGyu Yang for Computer Networking Project
+This Program is made by DeokGyu Yang for Computer Network Project
 
 -- Members --
 DeokGyu Yang
