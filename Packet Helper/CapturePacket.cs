@@ -86,79 +86,79 @@ namespace Packet_Helper
 
                     foreach (var packet in ourQueue)
                     {
-                        /* Simple Packet Composition (Packet.Net) and It will be continually updated...
-
-                        In case of TCP, A TCP packet captured on Ethernet may be "Ethernet packet -> IP packet -> TCP packet"
-                        So in Packet.Net the TCP packet could be accessed like capturedPacket(Ethernet).PayloadPacket(IP).PayloadPacket(TCP)
-                        The other way, the Ethernet packet could be accessed like tcpPacket.ParentPacket(IP).ParentPacket(Ethernet)
-
-                        Each packet also have a payload part. And It's could be accessed like TcpPacket.PayloadData
-
-                        Each two Hex (8bit) in Hex dump of the packet(e.g 90 9F 33 57 ...) is length 1 (1 byte)
+                        /* http://www.netmanias.com/ko/post/blog/5372/ethernet-ip-ip-routing-network-protocol/packet-header-ethernet-ip-tcp-ip
+                         * 알아내고자 하는 것
+                         * 1. 패킷 내 사용자 민감 데이터 여부
+                         * 2. 각 헤더 내 정보
+                         * 
+                         * 사용한 방법
+                         * - 캡쳐되는 Raw 패킷(Ethernet 헤더가 포함된 패킷)으로부터 IP 헤더, TCP 헤더와 TCP 페이로드 값 확인
+                         * (1) IP 헤더로부터 출발지 IP와 도착지 IP, 프로토콜 확인
+                         * (2) TCP 헤더로부터 출발지 포트, 도착지 포트 확인
+                         * (3) TCP 페이로드로부터 민감 데이터 여부 확인
                         */
 
-                        ListViewItem newItem = new ListViewItem(count.ToString());
-
-                        var packetLength = packet.Data.Length;
-                        var time = packet.Timeval.Date;
+                        // Ethernet 패킷의 Data 부분에 IP 헤더와 TCP 헤더 및 페이로드가 포함되어 있기 때문에 Ethernet 타입에 맞게 패킷 변환
                         var thisPacket = PacketDotNet.Packet.ParsePacket(packet.LinkLayerType, packet.Data);
-                        var tcpPacket = (PacketDotNet.TcpPacket)thisPacket.Extract(typeof(PacketDotNet.TcpPacket));
 
-                        /* Check if it contains sensitive data */
-                        var containsSensitiveData = detectSensitiveData(packet.Data);
+                        // IP 헤더와 프로토콜이 TCP 인 지 알기 위해 IP 패킷 추출
+                        var ipPacket = (PacketDotNet.IpPacket)thisPacket.Extract(typeof(PacketDotNet.IpPacket));
 
-                        /* Show payload */
-                        //showHexDump(packet.Data, packetLength);
-
-                        System.Net.IPAddress srcIp = System.Net.IPAddress.None;
-                        System.Net.IPAddress dstIp = System.Net.IPAddress.None;
-                        int srcPort = 0;
-                        int dstPort = 0;
-                        PacketDotNet.IPProtocolType protocol = PacketDotNet.IPProtocolType.NONE;
-
-                        if (tcpPacket != null)
+                        if (ipPacket != null)
                         {
-                            var ipPacket = (PacketDotNet.IpPacket)tcpPacket.ParentPacket;
-                            srcIp = ipPacket.SourceAddress;
-                            dstIp = ipPacket.DestinationAddress;
-                            protocol = ipPacket.Protocol;
-                            srcPort = tcpPacket.SourcePort;
-                            dstPort = tcpPacket.DestinationPort;
-                        }
-
-                        if (srcIp.ToString().Equals("255.255.255.255") && dstIp.ToString().Equals("255.255.255.255") || (srcPort == 0 && dstPort == 0))
-                        {
-                            continue;
-                        }
-                        else if (protocol != PacketDotNet.IPProtocolType.TCP)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            var korTime = time.Hour - 3;
-                            newItem.SubItems.Add(korTime + ":" + time.Minute + ":" + time.Second + "," + time.Millisecond);
-                            newItem.SubItems.Add(srcIp.ToString());
-                            newItem.SubItems.Add(dstIp.ToString());
-                            newItem.SubItems.Add(protocol.ToString());
-                            newItem.SubItems.Add(srcPort.ToString());
-                            newItem.SubItems.Add(dstPort.ToString());
-                            newItem.SubItems.Add(packetLength.ToString());
-                            newItem.SubItems.Add("");
-                            if (containsSensitiveData)
+                            var protocol = ipPacket.Protocol;
+                            if (protocol == PacketDotNet.IPProtocolType.TCP)
                             {
-                                newItem.BackColor = System.Drawing.Color.OrangeRed;
+                                // 프로토콜이 TCP인 경우 사용자 민감 데이터 검사 및 리스트뷰에 아이템 추가
+
+                                ListViewItem newItem = new ListViewItem(count.ToString());
+
+                                var packetLength = packet.Data.Length;
+
+                                var timezone = TimeZone.CurrentTimeZone;
+                                var time = timezone.ToUniversalTime(packet.Timeval.Date);
+
+                                // TCP 헤더와 페이로드 부분을 알기 위해 TCP 패킷 추출
+                                var tcpPacket = (PacketDotNet.TcpPacket)thisPacket.Extract(typeof(PacketDotNet.TcpPacket));
+
+                                // TCP 페이로드로부터 민감 데이터 여부 확인
+                                var containsSensitiveData = detectSensitiveData(tcpPacket.PayloadData);
+
+                                var srcIp = ipPacket.SourceAddress.ToString();
+                                var dstIp = ipPacket.DestinationAddress.ToString();
+                                var srcPort = tcpPacket.SourcePort;
+                                var dstPort = tcpPacket.DestinationPort;
+
+                                if (srcIp.ToString().Equals("255.255.255.255") && dstIp.ToString().Equals("255.255.255.255") || (srcPort == 0 && dstPort == 0))
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    newItem.SubItems.Add(time.Hour + ":" + time.Minute + ":" + time.Second);
+                                    newItem.SubItems.Add(srcIp);
+                                    newItem.SubItems.Add(dstIp);
+                                    newItem.SubItems.Add(protocol.ToString());
+                                    newItem.SubItems.Add(srcPort.ToString());
+                                    newItem.SubItems.Add(dstPort.ToString());
+                                    newItem.SubItems.Add(packetLength.ToString());
+                                    newItem.SubItems.Add("");
+                                    if (containsSensitiveData)
+                                    {
+                                        newItem.BackColor = System.Drawing.Color.OrangeRed;
+                                    }
+
+                                    Monitor.Enter(MainForm.LVItemQueue);
+                                    MainForm.LVItemQueue.Enqueue(newItem);
+
+                                    if (MainForm.LVItemQueue.Count > 0)
+                                        Monitor.Pulse(MainForm.LVItemQueue);
+                                    Monitor.Exit(MainForm.LVItemQueue);
+
+                                    count++;
+                                }
                             }
-
-                            Monitor.Enter(MainForm.LVItemQueue);
-                            MainForm.LVItemQueue.Enqueue(newItem);
-
-                            if (MainForm.LVItemQueue.Count > 0)
-                                Monitor.Pulse(MainForm.LVItemQueue);
-                            Monitor.Exit(MainForm.LVItemQueue);
-
-                            count++;
-                        }
+                        }     
                     }
                 }
             }

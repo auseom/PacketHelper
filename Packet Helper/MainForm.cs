@@ -40,7 +40,15 @@ namespace Packet_Helper
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            var reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\WinPcapInst");
+            var reg = (RegistryKey)null;
+            if (Environment.Is64BitOperatingSystem)
+            {
+                reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\WinPcapInst");
+            } else
+            {
+                reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\WinPcapInst");
+            }
+           
             if (reg == null || reg.ValueCount == 0)
             {
                 MessageBox.Show("Install WinPcap First!\nWinPcap download site will be opened!");

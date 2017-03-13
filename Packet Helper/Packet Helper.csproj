@@ -51,6 +51,15 @@
   <PropertyGroup>
     <ApplicationIcon>waves5_128.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PacketDotNet">
       <HintPath>..\..\SharpPcap-4.2.0\Release\PacketDotNet.dll</HintPath>
@@ -112,6 +121,7 @@
     <EmbeddedResource Include="registerSensitiveData.resx">
       <DependentUpon>registerSensitiveData.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
