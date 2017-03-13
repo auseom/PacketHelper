@@ -114,9 +114,7 @@ namespace Packet_Helper
                                 ListViewItem newItem = new ListViewItem(count.ToString());
 
                                 var packetLength = packet.Data.Length;
-
-                                var timezone = TimeZone.CurrentTimeZone;
-                                var time = timezone.ToUniversalTime(packet.Timeval.Date);
+                                var time = TimeZoneInfo.ConvertTime(packet.Timeval.Date, TimeZoneInfo.Local);
 
                                 // TCP 헤더와 페이로드 부분을 알기 위해 TCP 패킷 추출
                                 var tcpPacket = (PacketDotNet.TcpPacket)thisPacket.Extract(typeof(PacketDotNet.TcpPacket));
