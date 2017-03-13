@@ -50,3 +50,16 @@ C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet_Hel
 C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet Helper.csproj.GenerateResource.Cache
 C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet_Helper.registerSensitiveData.resources
 C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Debug\Packet_Helper.About.resources
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\bin\Debug\Packet Helper.exe.config
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Debug\Packet Helper.exe
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Debug\Packet Helper.pdb
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\bin\Debug\Packet Helper.exe
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\bin\Debug\Packet Helper.pdb
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\bin\Debug\PacketDotNet.xml
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\bin\Debug\SharpPcap.xml
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Debug\Packet Helper.csprojResolveAssemblyReference.cache
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Debug\Packet_Helper.About.resources
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Debug\Packet_Helper.MainForm.resources
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Debug\Packet_Helper.Properties.Resources.resources
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Debug\Packet_Helper.registerSensitiveData.resources
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Debug\Packet Helper.csproj.GenerateResource.Cache

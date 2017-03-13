@@ -133,7 +133,7 @@ namespace Packet_Helper
                                 }
                                 else
                                 {
-                                    newItem.SubItems.Add(time.Hour + ":" + time.Minute + ":" + time.Second);
+                                    newItem.SubItems.Add(time.ToString("G"));
                                     newItem.SubItems.Add(srcIp);
                                     newItem.SubItems.Add(dstIp);
                                     newItem.SubItems.Add(protocol.ToString());

@@ -9,3 +9,14 @@ C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\bin\Release\Packet H
 C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Release\Packet Helper.exe
 C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Release\Packet Helper.pdb
 C:\Users\AuSeom\Documents\GitHub\PacketHelper\Packet Helper\obj\Release\Packet Helper.csprojResolveAssemblyReference.cache
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\bin\Release\Packet Helper.exe.config
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Release\Packet Helper.exe
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Release\Packet Helper.pdb
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\bin\Release\Packet Helper.exe
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\bin\Release\Packet Helper.pdb
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Release\Packet Helper.csprojResolveAssemblyReference.cache
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Release\Packet_Helper.About.resources
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Release\Packet_Helper.MainForm.resources
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Release\Packet_Helper.Properties.Resources.resources
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Release\Packet_Helper.registerSensitiveData.resources
+D:\Dropbox\취업\포트폴리오\C#_패킷캡쳐_PacketHelper\Packet Helper\obj\Release\Packet Helper.csproj.GenerateResource.Cache

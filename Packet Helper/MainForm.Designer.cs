@@ -86,7 +86,7 @@
             this.listView_PacketActivity.Location = new System.Drawing.Point(198, 51);
             this.listView_PacketActivity.MultiSelect = false;
             this.listView_PacketActivity.Name = "listView_PacketActivity";
-            this.listView_PacketActivity.Size = new System.Drawing.Size(774, 498);
+            this.listView_PacketActivity.Size = new System.Drawing.Size(860, 498);
             this.listView_PacketActivity.TabIndex = 0;
             this.listView_PacketActivity.UseCompatibleStateImageBehavior = false;
             this.listView_PacketActivity.View = System.Windows.Forms.View.Details;
@@ -99,9 +99,9 @@
             // 
             // columnHeader_Time
             // 
-            this.columnHeader_Time.Text = "Time";
+            this.columnHeader_Time.Text = "DateTime";
             this.columnHeader_Time.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader_Time.Width = 80;
+            this.columnHeader_Time.Width = 171;
             // 
             // columnHeader_SrcIP
             // 
@@ -131,7 +131,6 @@
             // columnHeader_Length
             // 
             this.columnHeader_Length.Text = "Length";
-            this.columnHeader_Length.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // columnHeader_Info
             // 
@@ -146,7 +145,7 @@
             this.toolStripMenuItem_Info});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(986, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1069, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -342,7 +341,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(986, 561);
+            this.ClientSize = new System.Drawing.Size(1069, 561);
             this.Controls.Add(this.button_registerSData);
             this.Controls.Add(this.label_sensitiveDataList);
             this.Controls.Add(this.listView_sensitiveData);
